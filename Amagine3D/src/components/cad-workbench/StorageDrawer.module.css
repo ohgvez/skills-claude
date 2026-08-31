@@ -1,0 +1,417 @@
+.storageDrawer {
+  position: absolute;
+  z-index: var(--z-modal);
+  inset-block: 0;
+  inset-inline-end: 0;
+  display: flex;
+  width: min(32rem, calc(100% - 1rem));
+  min-width: min(20rem, calc(100% - 1rem));
+  overflow: hidden;
+  border-inline-start: var(--rule-thin) solid var(--color-rule);
+  background: var(--color-elevated);
+  box-shadow: -12px 0 32px rgb(0 0 0 / 0.08);
+}
+
+.storageSection {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.storageDrawerHeader {
+  position: relative;
+  z-index: var(--z-raised);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.875rem var(--space-md);
+  border-block-end: var(--rule-thin) solid var(--color-rule);
+  background: var(--color-elevated);
+}
+
+.sectionHeading {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.sectionHeadingText {
+  display: grid;
+  min-width: 0;
+  gap: var(--space-2xs);
+}
+
+.sectionHeading h2 {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.sectionHeading small {
+  overflow: hidden;
+  color: var(--color-muted);
+  font-size: var(--text-xs);
+  line-height: 1.45;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.storageHeaderActions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--space-3xs);
+}
+
+.storageDeleteButton,
+.storageDownloadButton,
+.storageRefreshButton,
+.storageDrawerClose {
+  position: relative;
+  display: inline-grid;
+  width: 2rem;
+  min-width: 2rem;
+  height: 2rem;
+  min-height: 2rem;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+.storageDeleteButton::after,
+.storageDownloadButton::after,
+.storageRefreshButton::after,
+.storageDrawerClose::after {
+  position: absolute;
+  z-index: var(--z-tooltip);
+  inset-block-start: calc(100% + var(--space-xs));
+  inset-inline-end: 0;
+  width: max-content;
+  max-width: 15rem;
+  padding: 0.35rem 0.5rem;
+  border: var(--rule-thin) solid var(--color-rule);
+  border-radius: var(--radius-sm);
+  background: var(--color-ink);
+  color: var(--color-elevated);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
+  content: attr(data-tooltip);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  line-height: 1.3;
+  opacity: 0;
+  pointer-events: none;
+  text-align: start;
+  white-space: normal;
+  transform: translateY(-0.25rem);
+  transition:
+    opacity var(--dur-micro) var(--ease-out),
+    transform var(--dur-micro) var(--ease-out);
+}
+
+.storageDeleteButton:hover::after,
+.storageDownloadButton:hover::after,
+.storageRefreshButton:hover::after,
+.storageDrawerClose:hover::after,
+.storageDeleteButton:focus-visible::after,
+.storageDownloadButton:focus-visible::after,
+.storageRefreshButton:focus-visible::after,
+.storageDrawerClose:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 120ms;
+}
+
+.storageDeleteButton svg,
+.storageDownloadButton svg,
+.storageRefreshButton svg,
+.storageDrawerClose svg {
+  width: 1rem;
+  height: 1rem;
+  overflow: visible;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.45;
+}
+
+.storageViewport {
+  min-width: 0;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+.emptyState {
+  margin: var(--space-md);
+}
+
+.storageGroups {
+  display: grid;
+  min-height: 0;
+  align-content: start;
+  gap: 0;
+  padding: var(--space-xs) 0.875rem 1.25rem;
+}
+
+.folderGroup {
+  display: grid;
+  min-height: 0;
+}
+
+.storageGroupHeading {
+  display: grid;
+  grid-template-columns: 1.125rem minmax(0, 1fr);
+  width: 100%;
+  min-height: 3.75rem;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0.375rem var(--space-2xs);
+  border-block-end: var(--rule-thin) solid var(--color-rule);
+  background: var(--color-elevated);
+  color: var(--color-ink);
+}
+
+.folderSelectAll {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.folderSelectAll:disabled,
+.storageFileCheckbox:disabled {
+  cursor: not-allowed;
+}
+
+.storageFolderToggle {
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr);
+  min-width: 0;
+  min-height: 3rem;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-ink);
+  cursor: pointer;
+  font: inherit;
+  text-align: start;
+}
+
+.projectSummary {
+  display: flex;
+  min-width: 0;
+  min-height: 3rem;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-2xs) var(--space-xs);
+  color: var(--color-ink);
+}
+
+.projectIdentity {
+  display: grid;
+  min-width: 0;
+  flex: 1 1 auto;
+  gap: var(--space-3xs);
+}
+
+.projectName,
+.projectIdentity small {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.projectName {
+  color: var(--color-ink);
+  font-size: var(--text-sm);
+  font-weight: 620;
+  letter-spacing: -0.015em;
+}
+
+.projectIdentity small,
+.projectFileCount,
+.storageFileSize {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.projectIdentity small {
+  font-size: 0.6875rem;
+  font-weight: 400;
+}
+
+.folderFileList {
+  display: grid;
+  gap: 0;
+  margin: 0.25rem 0 0.5rem 2.25rem;
+  padding: 0 var(--space-2xs) 0 0;
+  list-style: none;
+}
+
+.emptyFolder {
+  margin: 0.5rem 0 0.875rem 2.25rem;
+  padding: var(--space-xs) var(--space-sm);
+  color: var(--color-muted);
+  font-size: var(--text-xs);
+}
+
+.folderFileList li {
+  isolation: isolate;
+  contain: paint;
+  display: grid;
+  grid-template-columns: 1.125rem 1rem minmax(0, 1fr) auto;
+  min-height: 3rem;
+  align-items: center;
+  gap: var(--space-3xs);
+  padding: var(--space-3xs) var(--space-2xs);
+  overflow: clip;
+  border-radius: var(--radius-sm);
+  color: var(--color-ink-soft);
+  transition:
+    background-color var(--dur-micro) var(--ease-out),
+    color var(--dur-micro) var(--ease-out);
+}
+
+.storageFileCheckbox {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.folderIcon {
+  display: inline-grid;
+  width: 1.75rem;
+  height: 1.75rem;
+  place-items: center;
+  border-radius: 0.375rem;
+  background: var(--color-fill);
+  color: var(--color-ink-soft);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 620;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.storageFileIdentity {
+  display: flex;
+  min-width: 0;
+  min-height: 3rem;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.1875rem;
+  padding: 0.375rem var(--space-2xs);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: start;
+}
+
+.storageFileIdentity strong,
+.storageFileIdentity small {
+  position: relative;
+  display: block;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: none;
+  white-space: nowrap;
+}
+
+.storageFileIdentity strong {
+  color: var(--color-ink);
+  font-size: var(--text-sm);
+  line-height: 1.25;
+}
+
+.storageFileIdentity small {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.2;
+}
+
+.storageFileSize {
+  align-self: center;
+  padding-inline-start: var(--space-2xs);
+}
+
+.storageDrawer button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .storageDownloadButton:not(:disabled):hover,
+  .storageRefreshButton:not(:disabled):hover,
+  .storageDrawerClose:not(:disabled):hover,
+  .storageFolderToggle:hover,
+  .folderFileList li:hover {
+    background: var(--color-fill);
+    color: var(--color-ink);
+  }
+
+  .storageDeleteButton:not(:disabled):hover {
+    background: var(--color-error-soft);
+    color: var(--color-error);
+  }
+}
+
+@media (max-width: 63.99rem) {
+  .storageDrawer {
+    width: min(32rem, calc(100% - 0.5rem));
+    min-width: min(18rem, calc(100% - 0.5rem));
+  }
+}
+
+@media (max-width: 39.99rem) {
+  .storageDrawer {
+    inset: 0;
+    width: 100%;
+    min-width: 100%;
+    border: 0;
+  }
+
+  .storageDrawerHeader,
+  .storageGroups {
+    padding-inline: var(--space-md);
+  }
+
+  .folderFileList {
+    margin-inline-start: 2rem;
+  }
+}

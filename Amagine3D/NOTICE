@@ -1,0 +1,15 @@
+Amagine3D
+Copyright 2026 amagine-ai
+
+This source distribution depends on open-source components that are installed
+separately by npm and pip. Their licenses are not replaced by the Apache License
+2.0 applied to Amagine3D. License texts, notices, and the source-distribution
+boundary are documented in docs/THIRD_PARTY_NOTICES.md and on the in-application
+Licenses and notices page.
+
+build123d
+Copyright (c) 2022–2025 The build123d Contributors
+
+build123d was originally derived from portions of the CadQuery codebase and
+has since been extensively refactored and restructured into an independent
+system. CadQuery is licensed under the Apache License, Version 2.0.

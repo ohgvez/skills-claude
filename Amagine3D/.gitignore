@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.venv/
+.amagine-state/
+workspace/*
+!workspace/.gitkeep
+.env
+.env.local
+coverage/
+*.tsbuildinfo
+__pycache__/
+*.py[cod]
+.DS_Store
+
