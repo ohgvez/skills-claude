@@ -1,0 +1,33 @@
+Make picolibc's <sys/dirent.h> match what libnds/BlocksDS expects.
+
+BlocksDS is built against the Wonderful Toolchain's patched picolibc, where the
+DIR object is opaque (the platform defines `struct __dirstream`) and `struct
+dirent` carries d_off/d_reclen. Upstream picolibc >= 1.8.12 defines a concrete
+DIR of its own and a smaller dirent, which makes libnds' filesystem code fail to
+compile. picolibc ships no opendir()/readdir() implementation of its own, so
+loosening the header is safe: libnds provides both the object and the calls.
+
+--- a/libc/include/sys/dirent.h
++++ b/libc/include/sys/dirent.h
+@@
+ struct dirent {
+     ino_t     d_ino; /* Inode number */
++    __off_t   d_off; /* Offset of the next entry */
++    reclen_t  d_reclen; /* Length of this record */
+     __uint8_t d_type;
+     char      d_name[__NAME_MAX + 1]; /* Null-terminated filename */
+ };
+@@
+-typedef struct {
+-    int           fd;
+-    size_t        offset;
+-    size_t        count;
+-    struct dirent dirent;
+-    union {
+-        char       buf[512];
+-        __uint64_t align;
+-    };
+-} DIR;
++/* The DIR object is defined by the platform (libnds/BlocksDS), which also
++   provides opendir()/readdir()/closedir(). picolibc only declares it. */
++typedef struct __dirstream DIR;
