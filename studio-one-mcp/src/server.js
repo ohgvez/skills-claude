@@ -1,0 +1,380 @@
+#!/usr/bin/env node
+// studio-one-mcp: MCP server for PreSonus Studio One.
+//
+// Two kinds of tools:
+//  - song_*  read .song files from disk. Always available; reflect the last save.
+//  - live_*  talk to a running Studio One through the MCP Bridge device.
+import { readdirSync, statSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { z } from 'zod';
+import { readSong, summarizeSong } from './song.js';
+import { fileURLToPath } from 'node:url';
+import { listSongs, resolveSong, songFolder } from './library.js';
+import { bridgeStatus, call } from './bridge.js';
+import { midiPort } from './midi.js';
+
+const json = (value) => ({ content: [{ type: 'text', text: JSON.stringify(value, null, 1) }] });
+const fail = (message) => ({ content: [{ type: 'text', text: message }], isError: true });
+const guard = (fn) => async (args) => {
+  try {
+    return json(await fn(args));
+  } catch (e) {
+    return fail(String(e.message || e));
+  }
+};
+
+// ---- server ---------------------------------------------------------------------
+
+const server = new McpServer({ name: 'studio-one-mcp', version: '0.1.0' });
+
+server.tool(
+  'song_list',
+  'List Studio One songs on disk (newest first), from ~/Documents/Studio One/Songs or $STUDIO_ONE_SONGS.',
+  { query: z.string().optional().describe('Case-insensitive substring of the song title'), limit: z.number().int().optional() },
+  guard((a) => listSongs(a)),
+);
+
+server.tool(
+  'song_read',
+  'Read a Studio One song from its .song file: tempo, time signature, markers, arranger sections, tracks with takes/clips (bar, beat and seconds), mixer channels with volume/pan/mute/solo and plug-in inserts, and media files. Reflects the last save, not unsaved edits.',
+  {
+    song: z.string().describe('Song title, part of one (newest match wins), or absolute path to a .song file'),
+    detail: z.enum(['summary', 'full']).optional().describe('summary (default): one line per track. full: every take and clip.'),
+    track: z.string().optional().describe('With detail=full, only include tracks whose name contains this'),
+  },
+  guard(({ song, detail = 'summary', track }) => {
+    const { path, otherMatches } = resolveSong(song);
+    const s = readSong(path);
+    const out = detail === 'summary' ? summarizeSong(s) : s;
+    if (detail !== 'summary' && track) out.tracks = out.tracks.filter((t) => t.name.toLowerCase().includes(track.toLowerCase()));
+    if (otherMatches.length) out.otherMatches = otherMatches; // picked the newest; these also matched
+    return out;
+  }),
+);
+
+server.tool(
+  'song_history',
+  "List a song's autosaves and backups in its History folder (newest first). Each path can be passed to song_read to compare versions.",
+  { song: z.string().describe('Song title or .song path') },
+  guard(({ song }) => {
+    const history = join(songFolder(resolveSong(song).path), 'History');
+    if (!existsSync(history)) return [];
+    return readdirSync(history)
+      .filter((f) => f.endsWith('.song'))
+      .map((f) => ({ file: join(history, f), modified: statSync(join(history, f)).mtime.toISOString() }))
+      .sort((a, b) => b.modified.localeCompare(a.modified));
+  }),
+);
+
+server.tool(
+  'live_status',
+  'Is a running Studio One reachable through the MCP Bridge device? Explains how to fix it if not.',
+  {},
+  guard(async () => {
+    const s = bridgeStatus();
+    if (!s.loaded) return { connected: false, ...s };
+    try {
+      const ping = await call('ping', {}, { timeoutMs: 2500 });
+      return { connected: true, midiPort: midiPort(), ping, ...s };
+    } catch (e) {
+      return { connected: false, error: e.message, ...s };
+    }
+  }),
+);
+
+server.tool(
+  'live_channels',
+  'List the mixer channels of the song open in Studio One right now, with live volume, pan, mute, solo and record-arm.',
+  {},
+  guard(() => call('channels')),
+);
+
+server.tool(
+  'live_set_channel',
+  'Change one mixer channel in the running Studio One. Values are Studio One normalised values (volume/pan 0..1, pan 0.5 = centre; mute/solo/recordArmed 0 or 1). Returns before/after.',
+  {
+    channel: z.string().describe('Exact channel label as shown in the console'),
+    field: z.enum(['volume', 'pan', 'mute', 'solo', 'recordArmed']),
+    value: z.number(),
+  },
+  guard((a) => call('setChannel', a)),
+);
+
+server.tool(
+  'live_song',
+  'The song open in Studio One right now: title, transport (playing, recording, loop, position, tempo, loop range, precount, preroll), track count and selected tracks. Unlike song_read this includes unsaved changes.',
+  {},
+  guard(async () => {
+    const song = await call('song');
+    return { ...song, file: song.fileUrl ? fileURLToPath(song.fileUrl) : null };
+  }),
+);
+
+server.tool(
+  'live_tracks',
+  'Tracks of the song open in Studio One right now, with media type, colour, mixer channel, number of takes, selection, and (by default) their events: name, start/end/length in seconds, muted.',
+  {
+    name: z.string().optional().describe('Only tracks whose name contains this'),
+    events: z.boolean().optional().describe('Include events (default true)'),
+    max_events: z.number().int().optional().describe('Per track (default 50)'),
+  },
+  guard(({ name, events, max_events }) => call('tracks', { name, events, maxEvents: max_events })),
+);
+
+server.tool(
+  'live_select_track',
+  'Select a track by exact name in the running Studio One, so that selection-based commands (live_command) act on it. Replaces the selection unless exclusive is false.',
+  { name: z.string(), exclusive: z.boolean().optional() },
+  guard((a) => call('selectTrack', a)),
+);
+
+server.tool(
+  'live_transport',
+  'Press a transport button in the running Studio One and return the resulting transport state.',
+  {
+    action: z.enum(['play', 'stop', 'record', 'togglePlay', 'returnToZero', 'rewind', 'forward', 'loopStart', 'loopEnd', 'toggleLoop', 'toggleClick', 'togglePrecount', 'togglePreroll', 'locateSelection']),
+  },
+  guard((a) => call('transport', a)),
+);
+
+server.tool(
+  'live_set_transport',
+  'Set transport values in the running Studio One: tempo (bpm), playhead position (seconds), loop / precount / preroll on or off. Returns the resulting transport state.',
+  {
+    tempo: z.number().optional(),
+    position_seconds: z.number().optional(),
+    position_bars: z.string().optional().describe('Bar position like "9.1.1.0" (bar.beat.sixteenth.tick); alternative to position_seconds'),
+    loop: z.boolean().optional(),
+    precount: z.boolean().optional(),
+    preroll: z.boolean().optional(),
+  },
+  guard(({ position_seconds, position_bars, ...a }) => call('setTransport', { ...a, positionSeconds: position_seconds, positionBars: position_bars })),
+);
+
+// Marker names are not exposed live; take them from the last save by position.
+function nameMarkers(markers, fileUrl) {
+  let saved = [];
+  try {
+    if (fileUrl && existsSync(fileURLToPath(fileUrl))) saved = readSong(fileURLToPath(fileUrl)).markers;
+  } catch {
+    saved = [];
+  }
+  return markers.map((m) => {
+    const hit = saved.find((x) => Math.abs(x.seconds - m.seconds) < 0.01);
+    return { ...m, name: hit ? hit.name : null };
+  });
+}
+
+async function liveMarkers(result) {
+  const { fileUrl } = await call('song');
+  return { ...result, markers: nameMarkers(result.markers, fileUrl), note: 'Names come from the last save; a marker added since then has name null.' };
+}
+
+server.tool(
+  'live_markers',
+  'Markers of the song open in Studio One right now: number, position (seconds and bar display) and name (from the last save). Briefly moves the playhead to read them and puts it back; refuses while playing. Only markers 1-20 are visible.',
+  {},
+  guard(async () => liveMarkers(await call('markers'))),
+);
+
+server.tool(
+  'live_add_marker',
+  'Add a marker in the running Studio One at a position in seconds (default: the playhead). The playhead is left where it was.',
+  { seconds: z.number().optional() },
+  guard(async (a) => liveMarkers(await call('addMarker', a))),
+);
+
+server.tool(
+  'live_delete_marker',
+  'Delete a marker in the running Studio One, by number (from live_markers) or by exact position in seconds.',
+  { number: z.number().int().optional(), seconds: z.number().optional() },
+  guard(async (a) => liveMarkers(await call('deleteMarker', a))),
+);
+
+server.tool(
+  'live_select_events',
+  'Select all events on the named track(s), or on every track, or clear the event selection. Then use live_command for selection-based edits, e.g. Event/Mute Events, Event/Unmute Events, Event/Toggle Mute, Edit/Split at Cursor, Event/Quantize, Event/Transpose Events Up, Track/Activate Next Layer (switch takes), Edit/Undo.',
+  {
+    track: z.string().optional(),
+    tracks: z.array(z.string()).optional(),
+    all: z.boolean().optional(),
+    none: z.boolean().optional().describe('Deselect all events'),
+  },
+  guard((a) => call('selectEvents', a)),
+);
+
+const TIME = z.union([z.number(), z.string()]).describe('Seconds (number) or a bar position string like "9.1.1.0"');
+
+server.tool(
+  'live_set_loop',
+  'Set the loop range in the running Studio One (start/end in seconds or as bars like "9.1.1.0"), and optionally turn looping on or off. Returns the transport state.',
+  { start: TIME.optional(), end: TIME.optional(), enable: z.boolean().optional() },
+  guard((a) => call('setLoop', a)),
+);
+
+server.tool(
+  'live_takes',
+  "A track's takes (layers) in the running Studio One: list them, switch to the next/previous take, or unpack all takes to separate tracks. Returns the number of takes and the names of the clips now playing. Takes do not wrap: next on the last take (or previous on the first) changes nothing.",
+  { track: z.string(), action: z.enum(['list', 'next', 'previous', 'unpack']).optional() },
+  guard((a) => call('takes', a)),
+);
+
+server.tool(
+  'live_save',
+  'Save the song open in Studio One (File/Save), or save it as a new version (File/Save New Version) to keep the old one.',
+  { new_version: z.boolean().optional() },
+  guard(({ new_version }) => call('save', { newVersion: !!new_version })),
+);
+
+server.tool(
+  'live_undo',
+  'Undo the last edit(s) in the running Studio One.',
+  { steps: z.number().int().optional() },
+  guard((a) => call('undo', a)),
+);
+
+server.tool(
+  'live_redo',
+  'Redo edit(s) in the running Studio One.',
+  { steps: z.number().int().optional() },
+  guard((a) => call('redo', a)),
+);
+
+server.tool(
+  'live_track_state',
+  "Toggle a track's arm / monitor / mute / solo, hide it, or duplicate it, by track name; showAll unhides every track. Returns the track's mixer channel afterwards. The track selection is restored. Mute is not on Studio One's undo stack: revert it by toggling again, since live_undo would undo the edit before it.",
+  { track: z.string().optional(), action: z.enum(['arm', 'monitor', 'mute', 'solo', 'hide', 'duplicate', 'showAll']) },
+  guard((a) => call('trackState', a)),
+);
+
+server.tool(
+  'live_edit_events',
+  'Edit all events on one track in the running Studio One: mute, unmute, toggleMute, quantize, transposeUp/Down (instrument parts), split / trimStart / trimEnd at a time (seconds or bars), merge, delete. Returns the track\'s events afterwards. Use live_undo to revert.',
+  {
+    track: z.string(),
+    action: z.enum(['mute', 'unmute', 'toggleMute', 'quantize', 'transposeUp', 'transposeDown', 'split', 'trimStart', 'trimEnd', 'merge', 'delete']),
+    at: TIME.optional().describe('Required for split, trimStart, trimEnd'),
+  },
+  guard((a) => call('editEvents', a)),
+);
+
+server.tool(
+  'live_add_track',
+  'Add a track to the song open in Studio One: audioMono (default), audioStereo, instrument, folder or automation.',
+  { type: z.enum(['audioMono', 'audioStereo', 'instrument', 'folder', 'automation']).optional() },
+  guard((a) => call('addTrack', a)),
+);
+
+server.tool(
+  'live_meters',
+  'Peak meters of every mixer channel in dB (-144 = silence). With duration_ms, samples repeatedly (e.g. while playing) and returns the highest peak per channel, plus which channels clipped (above -0.1 dB).',
+  { duration_ms: z.number().int().optional() },
+  guard(async ({ duration_ms }) => {
+    const first = await call('meters');
+    if (!duration_ms) return first;
+    const peak = new Map(first.map((m) => [m.label, Math.max(m.left ?? -144, m.right ?? -144)]));
+    const until = Date.now() + Math.min(duration_ms, 60000);
+    while (Date.now() < until) {
+      for (const m of await call('meters')) peak.set(m.label, Math.max(peak.get(m.label) ?? -144, m.left ?? -144, m.right ?? -144));
+      await new Promise((r) => setTimeout(r, 100));
+    }
+    const channels = [...peak].map(([label, db]) => ({ label, peakDb: Math.round(db * 10) / 10 }));
+    return { durationMs: duration_ms, channels, clipped: channels.filter((c) => c.peakDb > -0.1).map((c) => c.label) };
+  }),
+);
+
+server.tool(
+  'live_inserts',
+  'Plug-ins on each mixer channel of the running Studio One (or one channel): slot, plug-in name, bypassed; plus the channel\'s bypass-all switch.',
+  { channel: z.string().optional() },
+  guard((a) => call('inserts', a)),
+);
+
+server.tool(
+  'live_bypass_insert',
+  'Bypass or un-bypass one plug-in slot on a channel in the running Studio One (slot number from live_inserts), or the whole insert rack with slot "all".',
+  { channel: z.string(), slot: z.union([z.number().int(), z.literal('all')]), bypassed: z.boolean() },
+  guard((a) => call('setInsertBypass', a)),
+);
+
+server.tool(
+  'live_sends',
+  'Sends on each mixer channel of the running Studio One (or one channel): destination, level (0..1, Studio One normalised) and mute.',
+  { channel: z.string().optional() },
+  guard((a) => call('sends', a)),
+);
+
+server.tool(
+  'live_set_send',
+  'Set a send level (0..1) and/or mute on a channel in the running Studio One (index from live_sends).',
+  { channel: z.string(), index: z.number().int(), level: z.number().optional(), muted: z.boolean().optional() },
+  guard((a) => call('setSend', a)),
+);
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+server.tool(
+  'live_record',
+  'Record in the running Studio One. This writes a new take into the song, so it only runs with confirm: true, which should mean the user asked for it. Optionally arms a track first, starts from a position (seconds or bars), sets precount, and stops after `seconds`; without `seconds` it keeps recording until live_transport stop.',
+  {
+    confirm: z.literal(true).describe('Must be true: the user asked to record'),
+    track: z.string().optional().describe('Arm this track first (left armed afterwards)'),
+    from: TIME.optional(),
+    precount: z.boolean().optional(),
+    seconds: z.number().optional().describe('Stop after this many seconds (max 600)'),
+  },
+  guard(async ({ track, from, precount, seconds }) => {
+    if (seconds !== undefined && (seconds <= 0 || seconds > 600)) throw new Error('seconds must be 0-600');
+    const song = await call('song');
+    if (song.transport.playing || song.transport.recording) throw new Error('Studio One is already playing or recording; stop first');
+    let armed = null;
+    if (track) {
+      const t = (await call('tracks', { name: track, events: false })).find((x) => x.name === track);
+      if (!t) throw new Error(`no track named ${track}`);
+      const ch = (await call('channels')).find((c) => c.label === t.channel);
+      if (ch && !ch.recordArmed) await call('trackState', { track, action: 'arm' });
+      armed = track;
+    }
+    const setup = {};
+    if (typeof from === 'number') setup.positionSeconds = from;
+    if (typeof from === 'string') setup.positionBars = from;
+    if (precount !== undefined) setup.precount = precount;
+    if (Object.keys(setup).length) await call('setTransport', setup);
+    const started = await call('transport', { action: 'record' });
+    if (seconds === undefined) return { recording: true, armed, transport: started.transport, note: 'Call live_transport with action "stop" to finish.' };
+    await sleep(seconds * 1000);
+    const stopped = await call('transport', { action: 'stop' });
+    const after = armed ? (await call('tracks', { name: armed })).find((x) => x.name === armed) : null;
+    return { recorded: seconds, armed, transport: stopped.transport, track: after };
+  }),
+);
+
+server.tool(
+  'live_command',
+  'Run any Studio One command by category and name, exactly as listed in Studio One → Keyboard Shortcuts (e.g. Transport/Start, Transport/Stop, Transport/Record, Edit/Undo, File/Save, View/Console). Use live_list_commands to discover names. With check_only, only reports whether the command is currently enabled, without running it.',
+  {
+    category: z.string(),
+    name: z.string(),
+    check_only: z.boolean().optional().describe('Report {enabled} without executing'),
+    args: z.array(z.any()).optional().describe('Optional flat [key, value, key, value…] command arguments'),
+  },
+  guard(({ check_only, ...a }) => call('command', { ...a, checkOnly: !!check_only })),
+);
+
+server.tool(
+  'live_list_commands',
+  'List Studio One commands available to live_command (about 1,000 on Studio One 5), optionally filtered by a substring. with_state adds whether each is enabled right now; many need a selection or an open editor.',
+  { filter: z.string().optional(), with_state: z.boolean().optional() },
+  guard(({ filter, with_state }) => call('listCommands', { filter, withState: !!with_state }, { timeoutMs: 15000 })),
+);
+
+server.tool(
+  'live_eval',
+  "Run JavaScript inside Studio One's script engine and return the result (host objects are described to a depth). Globals: Host, PreSonus, component, describe. Only works when the bridge was installed with --allow-eval. Useful for exploring the undocumented object model, e.g. Host.Objects.getObjectByUrl('://studioapp/DocumentManager'). Do not throw, and check that a host member exists (typeof) before calling it: either one pops a modal Scripting Error dialog in Studio One.",
+  { code: z.string().describe('Function body; use `return` to send a value back'), depth: z.number().int().optional() },
+  guard((a) => call('eval', a, { timeoutMs: 15000 })),
+);
+
+await server.connect(new StdioServerTransport());

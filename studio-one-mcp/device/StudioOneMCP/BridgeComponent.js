@@ -1,0 +1,226 @@
+// studio-one-mcp bridge component: owns the mailbox bridge (BridgeCore.js) and
+// gives it the mixer through this surface's channel bank.
+
+include_file("resource://com.presonus.musicdevices/sdk/controlsurfacecomponent.js");
+include_file("BridgeConfig.js");
+include_file("BridgeCore.js");
+
+class BridgeComponent extends PreSonus.ControlSurfaceComponent {
+    onInit(hostComponent) {
+        super.onInit(hostComponent);
+        this.tickParam = hostComponent.paramList.addParam("bridgeTick");
+        // An alias parameter can be pointed at any element's parameter to read
+        // its display text (a send's destination name, a level in dB), the way
+        // the FaderPort script fills its scribble strips.
+        this.displayAlias = typeof hostComponent.paramList.addAlias === "function"
+            ? hostComponent.paramList.addAlias("bridgeDisplay") : null;
+        this.bridge = null;
+        try {
+            const cfg = bridgeConfig();
+            if (cfg) this.bridge = new Bridge(cfg, this);
+        } catch (e) {
+            Host.Console.writeLine("studio-one-mcp: bridge init failed: " + e);
+        }
+        // Clock: the client's MIDI CC on the bridgeTick control (see the surface file).
+        // Do NOT use Host.GUI.addIdleTask with a script object here: on Studio One
+        // 5.5.2 that crashed the app at launch (EXC_BAD_ACCESS in cclgui's timer).
+        if (this.bridge) this.bridge.beat(true); // publish clockErrors even if no clock fires
+    }
+
+    onExit() {
+        if (this.bridge) this.bridge.close();
+        this.bridge = null;
+        super.onExit();
+    }
+
+    clockTick(source) {
+        if (!this.bridge) return;
+        try { this.bridge.tick(source); }
+        catch (e) { Host.Console.writeLine("studio-one-mcp: tick failed: " + e); }
+    }
+
+    paramChanged(param) {
+        if (param === this.tickParam) return this.clockTick("midi");
+        super.paramChanged(param);
+    }
+
+    // Never throw out of a component method. Studio One wraps calls into the
+    // component and turns any escaping exception into a modal "Scripting Error"
+    // dialog, even when the caller has a try/catch. Failures are returned as
+    // { error } values and BridgeCore.js rethrows them on its own side.
+    channelElements() {
+        const model = this.hostComponent && this.hostComponent.model;
+        if (!model) return { error: "surface model not available" };
+        const bank = model.root.find("mixer").find("channels");
+        const out = [];
+        for (let i = 0; i < 256; i++) {
+            const el = bank.getElement(i);
+            if (!el || !el.isConnected()) continue;
+            const label = el.getParamValue(PreSonus.ParamID.kLabel);
+            if (label !== undefined && label !== null && String(label) !== "") out.push({ index: i, el: el, label: String(label) });
+        }
+        return out;
+    }
+
+    readParam(el, id) {
+        try { const v = el.getParamValue(id); return v === undefined ? null : v; } catch (_) { return null; }
+    }
+
+    channels() {
+        const els = this.channelElements();
+        if (els.error) return els;
+        return els.map(c => ({
+            index: c.index,
+            label: c.label,
+            type: this.readParam(c.el, PreSonus.ParamID.kChannelType),
+            volume: this.readParam(c.el, PreSonus.ParamID.kVolume),
+            pan: this.readParam(c.el, PreSonus.ParamID.kPan),
+            mute: this.readParam(c.el, "mute"),
+            solo: this.readParam(c.el, "solo"),
+            recordArmed: this.readParam(c.el, PreSonus.ParamID.kRecord),
+        }));
+    }
+
+    // Peak meter per channel in dB (-144 is silence), both sides of a stereo strip.
+    meters() {
+        const els = this.channelElements();
+        if (els.error) return els;
+        return els.map(c => ({ label: c.label, left: this.readParam(c.el, "level1"), right: this.readParam(c.el, "level2") }));
+    }
+
+    // ---- inserts and sends ----------------------------------------------------
+    //
+    // Each channel strip carries two sub-banks from the surface file. Names come
+    // from the bank element (@owner/deviceName, as Studio One's SDK names it);
+    // bypass is the channel's own "Inserts/[i]/@bypass" parameter (used by the
+    // built-in Mackie script). Every host member is checked before it is called.
+
+    subBank(el, name) {
+        if (!el || typeof el.find !== "function") return null;
+        const bank = el.find(name);
+        return bank && typeof bank.getElement === "function" ? bank : null;
+    }
+
+    channelByLabel(label) {
+        const els = this.channelElements();
+        if (els.error) return els;
+        const matches = els.filter(c => c.label === label);
+        if (matches.length !== 1) return { error: matches.length ? "channel name is ambiguous: " + label : "no channel named " + label };
+        return matches[0];
+    }
+
+    insertsOf(el) {
+        const bank = this.subBank(el, "inserts");
+        const out = [];
+        if (!bank) return out;
+        for (let i = 0; i < 16; i++) {
+            const slot = bank.getElement(i);
+            if (!slot || typeof slot.isConnected !== "function" || !slot.isConnected()) continue;
+            const name = this.readParam(slot, PreSonus.ParamID.kInsertName);
+            if (name === null || String(name) === "") continue;
+            out.push({ slot: i, name: String(name), bypassed: !!this.readParam(el, "Inserts/[" + i + "]/@bypass") });
+        }
+        return out;
+    }
+
+    inserts(args) {
+        const els = this.channelElements();
+        if (els.error) return els;
+        const want = args && args.channel;
+        const out = [];
+        for (const c of els) {
+            if (want && c.label !== want) continue;
+            out.push({ channel: c.label, bypassAll: !!this.readParam(c.el, PreSonus.ParamID.kInsertBypass), inserts: this.insertsOf(c.el) });
+        }
+        if (want && !out.length) return { error: "no channel named " + want };
+        return out;
+    }
+
+    // slot: number, or "all" for the channel's bypass-all switch.
+    setInsertBypass(args) {
+        const c = this.channelByLabel(args.channel);
+        if (c.error) return c;
+        const param = args.slot === "all" ? PreSonus.ParamID.kInsertBypass : "Inserts/[" + args.slot + "]/@bypass";
+        if (args.slot !== "all") {
+            const slot = this.insertsOf(c.el).find(x => x.slot === args.slot);
+            if (!slot) return { error: "no plug-in in slot " + args.slot + " on " + args.channel };
+        }
+        const before = this.readParam(c.el, param);
+        c.el.setParamValue(param, args.bypassed ? 1 : 0);
+        return { channel: args.channel, slot: args.slot, before: !!before, after: !!this.readParam(c.el, param) };
+    }
+
+    displayOf(el, paramName) {
+        const a = this.displayAlias;
+        if (!a || !el || typeof el.connectAliasParam !== "function") return null;
+        el.connectAliasParam(a, paramName);
+        return typeof a.string === "string" ? a.string : null;
+    }
+
+    sendsOf(el) {
+        const bank = this.subBank(el, "sends");
+        const out = [];
+        if (!bank) return out;
+        for (let i = 0; i < 8; i++) {
+            const send = bank.getElement(i);
+            if (!send || typeof send.isConnected !== "function" || !send.isConnected()) continue;
+            if (this.readParam(send, PreSonus.ParamID.kSendPort) === null) continue;
+            out.push({
+                index: i,
+                to: this.displayOf(send, PreSonus.ParamID.kSendPort),
+                level: this.readParam(send, PreSonus.ParamID.kSendLevel),
+                levelDb: this.displayOf(send, PreSonus.ParamID.kSendLevel),
+                muted: !!this.readParam(send, PreSonus.ParamID.kSendMute),
+            });
+        }
+        return out;
+    }
+
+    sends(args) {
+        const els = this.channelElements();
+        if (els.error) return els;
+        const want = args && args.channel;
+        const out = [];
+        for (const c of els) {
+            if (want && c.label !== want) continue;
+            const s = this.sendsOf(c.el);
+            if (want || s.length) out.push({ channel: c.label, sends: s });
+        }
+        if (want && !out.length) return { error: "no channel named " + want };
+        return out;
+    }
+
+    setSend(args) {
+        const c = this.channelByLabel(args.channel);
+        if (c.error) return c;
+        const bank = this.subBank(c.el, "sends");
+        const send = bank ? bank.getElement(args.index) : null;
+        if (!send || !this.sendsOf(c.el).some(x => x.index === args.index)) return { error: "no send " + args.index + " on " + args.channel };
+        const out = { channel: args.channel, index: args.index };
+        if (args.level !== undefined) {
+            if (typeof args.level !== "number" || args.level < 0 || args.level > 1) return { error: "level must be 0..1 (Studio One's normalised send level)" };
+            send.setParamValue(PreSonus.ParamID.kSendLevel, args.level);
+        }
+        if (args.muted !== undefined) send.setParamValue(PreSonus.ParamID.kSendMute, args.muted ? 1 : 0);
+        out.send = this.sendsOf(c.el).find(x => x.index === args.index);
+        return out;
+    }
+
+    setChannel(args) {
+        const fields = { volume: PreSonus.ParamID.kVolume, pan: PreSonus.ParamID.kPan, mute: "mute", solo: "solo", recordArmed: PreSonus.ParamID.kRecord };
+        const param = fields[args.field];
+        if (!param) return { error: "field must be one of " + Object.keys(fields).join(", ") };
+        const els = this.channelElements();
+        if (els.error) return els;
+        const matches = els.filter(c => c.label === args.channel);
+        if (matches.length !== 1) return { error: matches.length ? "channel name is ambiguous: " + args.channel : "no channel named " + args.channel };
+        const el = matches[0].el;
+        const before = this.readParam(el, param);
+        el.setParamValue(param, args.value);
+        return { channel: args.channel, field: args.field, before: before, after: this.readParam(el, param) };
+    }
+}
+
+function createBridgeComponent() {
+    return new BridgeComponent();
+}
