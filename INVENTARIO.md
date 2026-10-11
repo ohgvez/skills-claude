@@ -90,6 +90,7 @@ After Effects 2026, Photoshop 2026, Premiere Pro 2026, FL Studio 2026, Blender 5
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
+- 2026-10-11 — REA connesso in Claude (~180 strumenti). Test ok: javac.exe aperto con Ghidra → 126 funzioni, 106 stringhe
 - 2026-10-11 — REA andava in timeout all'avvio (~17s, limite 30s): messo `MCP_TIMEOUT=120000` in `~/.claude/settings.json` → `env`
 - 2026-10-11 — **graphify** (safishamsi/graphify): CLI via uv + skill `/graphify`
 - 2026-10-11 — **Ghidra 12.1.4** da GitHub NSA, estratto in `C:\Users\Federico\ghidra`, collegato a REA con JDK 21
