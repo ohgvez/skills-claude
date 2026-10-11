@@ -65,6 +65,7 @@ Backup config: `.claude.json.rea.backup`. Ghidra in `C:\Users\Federico\ghidra\gh
 | 2026-09-28 | Animazione/UI + altro | vari (altro PC) | animate, animate-expo, animation-vocabulary, apple-design, ask-sonner, emil-design-eng, find-animation-opportunities, improve-animations, pick-ui-library, review-animations, write-swift, houdini-foundations ✅ copiate anche sul laptop (2026-10-11) |
 | 2026-10-11 | Knowledge graph / meno token | github.com/safishamsi/graphify (pip `graphifyy`, via `uv tool install`) | graphify ✅ — uso: `/graphify .` dentro un progetto; ha creato `C:\Users\Federico\.claude\CLAUDE.md` |
 | 2026-10-11 | Reverse engineering | morluto/rea | reverse-engineer-anything ✅ (installata da `rea setup`) |
+| 2026-10-11 | Clonare app (11) | github.com/Jakeschincariol/replica-skill (MIT, repo in `Desktop\replica-skill`) | replica-recon → architect → design → build → backend → test → diff → entrepreneur → brand → launch → deploy ✅ (da usare in ordine, scrivono in `replica/` nel progetto) |
 
 ## 4. Repo clonati / progetti
 
@@ -92,6 +93,7 @@ After Effects 2026, Photoshop 2026, Premiere Pro 2026, FL Studio 2026, Blender 5
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
+- 2026-10-11 — **replica-skill** (Jakeschincariol): 11 skill per clonare app (recon, build, test, diff…), clonato in `Desktop\replica-skill`, installato in `.claude\skills`
 - 2026-10-11 — MCP delle app ora partono solo se l'app è aperta (`.claude\mcp-gate\gate.js`), così non rallentano l'avvio e REA si connette
 - 2026-10-11 — REA in timeout anche a 120s quando partono tutti gli MCP insieme (da solo ci mette 17-31s): `MCP_TIMEOUT` portato a 300000 (5 min)
 - 2026-10-11 — REA connesso in Claude (~180 strumenti). Test ok: javac.exe aperto con Ghidra → 126 funzioni, 106 stringhe
