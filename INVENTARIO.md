@@ -19,15 +19,16 @@ Config in `C:\Users\Federico\.claude.json` → `mcpServers`.
 | premiere-pro | Comanda Premiere | `C:\Users\Federico\premiere-pro-mcp` | github.com/leancoderkavy/premiere-pro-mcp | ⚠️ serve Premiere aperto |
 | photoshop | Comanda Photoshop | npx `@alisaitteke/photoshop-mcp` | npm | ⚠️ serve PS aperto |
 | houdini | Comanda Houdini | `Desktop\houdini-mcp` | github.com/capoomgit/houdini-mcp | ⚠️ serve Houdini aperto |
+| graphify-mcp | Knowledge graph del codice (opzionale) | `uv tool` graphifyy | github.com/safishamsi/graphify | ⚠️ disponibile, non registrato |
 | vocaloid6-mcp | Comanda Vocaloid 6 | `Desktop\vocaloid6-mcp` | github.com/nigexiaolaji/vocaloid6-mcp | ⚠️ clonato, NON registrato |
-| **REA** (rea-agents) | Reverse engineering di app/exe/siti | `Desktop\rea` (+ npm globale v6.4.0) | github.com/morluto/rea | ✅ registrato in Claude Code (attivo dopo riavvio). Per .exe serve Ghidra |
+| **REA** (rea-agents) | Reverse engineering di app/exe/siti | `Desktop\rea` (+ npm globale v6.4.0) | github.com/morluto/rea | ✅ registrato in Claude Code con Ghidra 12.1.4 + JDK 21 → analizza anche .exe/.dll |
 
 **REA — come è stato installato** (PowerShell blocca `npm`, usare `npm.cmd`):
 ```
 npm.cmd i -g rea-agents
 rea.cmd setup --client claude_code --yes
 ```
-Backup config: `.claude.json.rea.backup`. Per analizzare .exe serve anche Ghidra 12.1 (`GHIDRA_INSTALL_DIR`).
+Backup config: `.claude.json.rea.backup`. Ghidra in `C:\Users\Federico\ghidra\ghidra_12.1.4_PUBLIC`, Java `C:\Program Files\Eclipse Adoptium\jdk-21.0.12.101-hotspot`: per ricollegarli rilanciare `rea.cmd setup --client claude_code --yes` con `$env:GHIDRA_INSTALL_DIR` e `$env:JAVA_HOME` impostati.
 
 ## 2. Plugin di Claude Code
 
@@ -60,6 +61,7 @@ Backup config: `.claude.json.rea.backup`. Per analizzare .exe serve anche Ghidra
 | 2026-09-14 | ffmpeg | — | claude-ffmpeg-skill |
 | 2026-09-17 | Musica | — | suno-metatags (aggiunta dall'altro PC) ✅ |
 | 2026-09-28 | Animazione/UI + altro | vari (altro PC) | animate, animate-expo, animation-vocabulary, apple-design, ask-sonner, emil-design-eng, find-animation-opportunities, improve-animations, pick-ui-library, review-animations, write-swift, houdini-foundations ✅ copiate anche sul laptop (2026-10-11) |
+| 2026-10-11 | Knowledge graph / meno token | github.com/safishamsi/graphify (pip `graphifyy`, via `uv tool install`) | graphify ✅ — uso: `/graphify .` dentro un progetto; ha creato `C:\Users\Federico\.claude\CLAUDE.md` |
 | 2026-10-11 | Reverse engineering | morluto/rea | reverse-engineer-anything ✅ (installata da `rea setup`) |
 
 ## 4. Repo clonati / progetti
@@ -78,6 +80,8 @@ Backup config: `.claude.json.rea.backup`. Per analizzare .exe serve anche Ghidra
 
 ## 5. App / software installati rilevanti
 
+Ghidra 12.1.4 (`C:\Users\Federico\ghidra`, decompilatore NSA, usato da REA), JDK 21 + 25 (Temurin), uv/uvx.
+
 After Effects 2026, Photoshop 2026, Premiere Pro 2026, FL Studio 2026, Blender 5.2, Houdini FX 20.0, Studio One 6 Pro, Synthesizer V Studio, Vocaloid 6, iZotope Nectar 4 / Neutron 5, Audacity 4.
 
 ---
@@ -86,6 +90,8 @@ After Effects 2026, Photoshop 2026, Premiere Pro 2026, FL Studio 2026, Blender 5
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
+- 2026-10-11 — **graphify** (safishamsi/graphify): CLI via uv + skill `/graphify`
+- 2026-10-11 — **Ghidra 12.1.4** da GitHub NSA, estratto in `C:\Users\Federico\ghidra`, collegato a REA con JDK 21
 - 2026-10-11 — Copiate sul laptop le 13 skill dell'altro PC (animazioni, apple-design, write-swift, houdini-foundations, suno-metatags…)
 - 2026-10-11 — **REA** (morluto/rea) clonato in `Desktop\rea` + sottomoduli. Installato globale (npm.cmd) + `rea setup --client claude_code`. Creato questo INVENTARIO.
 - 2026-09-28 — (altro PC) 12 skill animazione/UI, write-swift, houdini-foundations
