@@ -11,6 +11,8 @@ Legenda stato: ✅ funziona · ⚠️ installato ma da completare · ❌ rotto/n
 
 Config in `C:\Users\Federico\.claude.json` → `mcpServers`.
 
+**Avvio intelligente (dal 2026-10-11):** gli MCP delle app (Blender, After Effects, FL, Premiere, Photoshop, Houdini) passano da `C:\Users\Federico\.claude\mcp-gate\gate.js`: partono **solo se il programma è già aperto**, altrimenti escono in ~1s. Quindi: prima apri il programma, poi avvia/riavvia Claude. Backup config prima della modifica: `.claude.json.before-gate.bak`. REA invece parte sempre.
+
 | Nome | Cosa fa | Dove sta | Fonte | Stato |
 |---|---|---|---|---|
 | blender-mcp | Comanda Blender | `uvx blender-mcp` + addon in `Desktop\blender-mcp-addon` | ahujasid/blender-mcp | ⚠️ si connette solo con Blender aperto |
@@ -90,6 +92,7 @@ After Effects 2026, Photoshop 2026, Premiere Pro 2026, FL Studio 2026, Blender 5
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
+- 2026-10-11 — MCP delle app ora partono solo se l'app è aperta (`.claude\mcp-gate\gate.js`), così non rallentano l'avvio e REA si connette
 - 2026-10-11 — REA in timeout anche a 120s quando partono tutti gli MCP insieme (da solo ci mette 17-31s): `MCP_TIMEOUT` portato a 300000 (5 min)
 - 2026-10-11 — REA connesso in Claude (~180 strumenti). Test ok: javac.exe aperto con Ghidra → 126 funzioni, 106 stringhe
 - 2026-10-11 — REA andava in timeout all'avvio (~17s, limite 30s): messo `MCP_TIMEOUT=120000` in `~/.claude/settings.json` → `env`
