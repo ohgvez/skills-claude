@@ -22,12 +22,12 @@ Config in `C:\Users\Federico\.claude.json` → `mcpServers`.
 | vocaloid6-mcp | Comanda Vocaloid 6 | `Desktop\vocaloid6-mcp` | github.com/nigexiaolaji/vocaloid6-mcp | ⚠️ clonato, NON registrato |
 | **REA** (rea-agents) | Reverse engineering di app/exe/siti | `Desktop\rea` | github.com/morluto/rea | ⚠️ scaricato, setup da lanciare (vedi sotto) |
 
-**REA — comandi per finire il setup:**
+**REA — come è stato installato** (PowerShell blocca `npm`, usare `npm.cmd`):
 ```
-npm i -g rea-agents
-rea setup --client claude_code --yes
+npm.cmd i -g rea-agents
+rea.cmd setup --client claude_code --yes
 ```
-Poi riavviare Claude. Per analizzare .exe serve anche Ghidra 12.1 (`GHIDRA_INSTALL_DIR`).
+Backup config: `.claude.json.rea.backup`. Per analizzare .exe serve anche Ghidra 12.1 (`GHIDRA_INSTALL_DIR`).
 
 ## 2. Plugin di Claude Code
 
@@ -60,7 +60,7 @@ Poi riavviare Claude. Per analizzare .exe serve anche Ghidra 12.1 (`GHIDRA_INSTA
 | 2026-09-14 | ffmpeg | — | claude-ffmpeg-skill |
 | 2026-09-17 | Musica | — | suno-metatags (aggiunta dall'altro PC) |
 | 2026-09-28 | Animazione/UI + altro | vari (altro PC) | animate, animate-expo, animation-vocabulary, apple-design, ask-sonner, emil-design-eng, find-animation-opportunities, improve-animations, pick-ui-library, review-animations, write-swift, houdini-foundations ⚠️ solo nel repo: su questo PC non sono ancora in `.claude\skills` |
-| 2026-10-11 | Reverse engineering | morluto/rea | reverse-engineer-anything ⚠️ (arriva col setup REA) |
+| 2026-10-11 | Reverse engineering | morluto/rea | reverse-engineer-anything ✅ (installata da `rea setup`) |
 
 ## 4. Repo clonati / progetti
 
@@ -86,7 +86,7 @@ After Effects 2026, Photoshop 2026, Premiere Pro 2026, FL Studio 2026, Blender 5
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
-- 2026-10-11 — **REA** (morluto/rea) clonato in `Desktop\rea` + sottomoduli. Setup MCP da lanciare a mano. Creato questo INVENTARIO.
+- 2026-10-11 — **REA** (morluto/rea) clonato in `Desktop\rea` + sottomoduli. Installato globale (npm.cmd) + `rea setup --client claude_code`. Creato questo INVENTARIO.
 - 2026-09-28 — (altro PC) 12 skill animazione/UI, write-swift, houdini-foundations
 - 2026-09-17 — (altro PC) suno-metatags
 - 2026-09-14 — skill claude-ffmpeg-skill
