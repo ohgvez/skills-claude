@@ -20,7 +20,7 @@ Config in `C:\Users\Federico\.claude.json` → `mcpServers`.
 | photoshop | Comanda Photoshop | npx `@alisaitteke/photoshop-mcp` | npm | ⚠️ serve PS aperto |
 | houdini | Comanda Houdini | `Desktop\houdini-mcp` | github.com/capoomgit/houdini-mcp | ⚠️ serve Houdini aperto |
 | vocaloid6-mcp | Comanda Vocaloid 6 | `Desktop\vocaloid6-mcp` | github.com/nigexiaolaji/vocaloid6-mcp | ⚠️ clonato, NON registrato |
-| **REA** (rea-agents) | Reverse engineering di app/exe/siti | `Desktop\rea` | github.com/morluto/rea | ⚠️ scaricato, setup da lanciare (vedi sotto) |
+| **REA** (rea-agents) | Reverse engineering di app/exe/siti | `Desktop\rea` (+ npm globale v6.4.0) | github.com/morluto/rea | ✅ registrato in Claude Code (attivo dopo riavvio). Per .exe serve Ghidra |
 
 **REA — come è stato installato** (PowerShell blocca `npm`, usare `npm.cmd`):
 ```
