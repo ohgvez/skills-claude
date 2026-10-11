@@ -58,8 +58,8 @@ Backup config: `.claude.json.rea.backup`. Per analizzare .exe serve anche Ghidra
 | 2026-09-04 | Immagini/media | Anthropic + vari | anydesign, canvas-design, image-enhancer, theme-factory, pixelbin-media-generation, Ear, blender-mcp, imagen, video-downloader, youtube-transcript |
 | 2026-09-09 | Remotion (12) | remotion-dev/claude-code-plugin | remotion-best-practices, -captions, -create, -docs, -interactivity, -maps, -markup, -multimedia, -render, -saas, -studio, -upgrade |
 | 2026-09-14 | ffmpeg | — | claude-ffmpeg-skill |
-| 2026-09-17 | Musica | — | suno-metatags (aggiunta dall'altro PC) |
-| 2026-09-28 | Animazione/UI + altro | vari (altro PC) | animate, animate-expo, animation-vocabulary, apple-design, ask-sonner, emil-design-eng, find-animation-opportunities, improve-animations, pick-ui-library, review-animations, write-swift, houdini-foundations ⚠️ solo nel repo: su questo PC non sono ancora in `.claude\skills` |
+| 2026-09-17 | Musica | — | suno-metatags (aggiunta dall'altro PC) ✅ |
+| 2026-09-28 | Animazione/UI + altro | vari (altro PC) | animate, animate-expo, animation-vocabulary, apple-design, ask-sonner, emil-design-eng, find-animation-opportunities, improve-animations, pick-ui-library, review-animations, write-swift, houdini-foundations ✅ copiate anche sul laptop (2026-10-11) |
 | 2026-10-11 | Reverse engineering | morluto/rea | reverse-engineer-anything ✅ (installata da `rea setup`) |
 
 ## 4. Repo clonati / progetti
@@ -86,6 +86,7 @@ After Effects 2026, Photoshop 2026, Premiere Pro 2026, FL Studio 2026, Blender 5
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
+- 2026-10-11 — Copiate sul laptop le 13 skill dell'altro PC (animazioni, apple-design, write-swift, houdini-foundations, suno-metatags…)
 - 2026-10-11 — **REA** (morluto/rea) clonato in `Desktop\rea` + sottomoduli. Installato globale (npm.cmd) + `rea setup --client claude_code`. Creato questo INVENTARIO.
 - 2026-09-28 — (altro PC) 12 skill animazione/UI, write-swift, houdini-foundations
 - 2026-09-17 — (altro PC) suno-metatags
