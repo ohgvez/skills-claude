@@ -1,7 +1,7 @@
 # INVENTARIO — tutto quello che ho installato/scaricato per Claude
 
 Second brain unico. Ogni volta che si scarica qualcosa (skill, plugin, MCP, repo, tool, app) si aggiunge una riga qui **e** nel [Registro](#registro-cronologico) in fondo.
-Ultimo aggiornamento: 2026-10-11
+Ultimo aggiornamento: 2026-10-24
 
 Legenda stato: ✅ funziona · ⚠️ installato ma da completare · ❌ rotto/non connesso
 
@@ -65,13 +65,16 @@ Backup config: `.claude.json.rea.backup`. Ghidra in `C:\Users\Federico\ghidra\gh
 | 2026-09-28 | Animazione/UI + altro | vari (altro PC) | animate, animate-expo, animation-vocabulary, apple-design, ask-sonner, emil-design-eng, find-animation-opportunities, improve-animations, pick-ui-library, review-animations, write-swift, houdini-foundations ✅ copiate anche sul laptop (2026-10-11) |
 | 2026-10-11 | Knowledge graph / meno token | github.com/safishamsi/graphify (pip `graphifyy`, via `uv tool install`) | graphify ✅ — uso: `/graphify .` dentro un progetto; ha creato `C:\Users\Federico\.claude\CLAUDE.md` |
 | 2026-10-11 | Reverse engineering | morluto/rea | reverse-engineer-anything ✅ (installata da `rea setup`) |
+| 2026-10-24 | Codice minimo (6) | github.com/DietrichGebert/ponytail (MIT, v5.3.2) | ponytail, ponytail-audit, ponytail-debt, ponytail-gain, ponytail-help, ponytail-review ✅ — uso: `/ponytail` (lite/full/ultra), `/ponytail-review`, `/ponytail-audit` |
 | 2026-10-11 | Clonare app (11) | github.com/Jakeschincariol/replica-skill (MIT, repo in `Desktop\replica-skill`) | replica-recon → architect → design → build → backend → test → diff → entrepreneur → brand → launch → deploy ✅ (da usare in ordine, scrivono in `replica/` nel progetto) |
 
 ## 4. Repo clonati / progetti
 
 | Cartella | Cosa | Remote |
 |---|---|---|
-| `Desktop\skills-claude` | **Questo repo**: backup skill + inventario | github.com/ohgvez/skills-claude |
+| `Desktop\PROGETTI AI\skills-claude` | **Questo repo**: backup skill + inventario (spostato in PROGETTI AI) | github.com/ohgvez/skills-claude |
+| `Desktop\PROGETTI AI\FireStick-backup` | Backup pacchetti Fire TV Stick + registro modifiche + APK (Projectivy, SmartTube) | — |
+| `Desktop\PROGETTI AI\FireStick-launcher` | Launcher stile Apple TV per Fire Stick: `cleanyourtv` + `firetv-tvos` (in costruzione) | Gathin23/cleanyourtv, NikhilSiddhu/firetv-tvos |
 | `Desktop\flight-tracker` | Tracker voli Google Flights + ntfy (privato) | github.com/ohgvez/flight-tracker |
 | `Desktop\vst\*` | Plugin VST miei: BlendForge, ChoirForge, ChopForge, FourCount, GeekForge, ilgranello, Lumitone, Machicut, MorseGate, RigForge, VocoForge, VoxForge | — |
 | `Desktop\JUCE` | Framework per i VST | juce-framework/JUCE |
@@ -85,6 +88,10 @@ Backup config: `.claude.json.rea.backup`. Ghidra in `C:\Users\Federico\ghidra\gh
 
 Ghidra 12.1.4 (`C:\Users\Federico\ghidra`, decompilatore NSA, usato da REA), JDK 21 + 25 (Temurin), uv/uvx.
 
+Android: platform-tools/adb 37.0.1 (winget `Google.PlatformTools`), cmdline-tools in `%LOCALAPPDATA%\Android\Sdk` (per compilare APK).
+
+Fire TV Stick (AFTSSS, 192.168.1.164): Projectivy Launcher 4.72 (github.com/spocky/miproja1), SmartTube 32.68 (github.com/yuliskov/SmartTube) — YouTube senza pubblicità. 53 pacchetti Amazon disattivati (lista CleanYourTV).
+
 After Effects 2026, Photoshop 2026, Premiere Pro 2026, FL Studio 2026, Blender 5.2, Houdini FX 20.0, Studio One 6 Pro, Synthesizer V Studio, Vocaloid 6, iZotope Nectar 4 / Neutron 5, Audacity 4.
 
 Wii homebrew in `Desktop\WII` (chiavetta SanDisk 64GB): USB Loader GX v4.0-r1283, d2x cIOS v11-beta3, Nintendont, wit 3.05a, fat32format 1.07.
@@ -94,6 +101,10 @@ Wii homebrew in `Desktop\WII` (chiavetta SanDisk 64GB): USB Loader GX v4.0-r1283
 ## Registro cronologico
 
 Una riga per ogni cosa scaricata. Più recente in alto.
+
+- 2026-10-24 — **ponytail** (DietrichGebert/ponytail, MIT): 6 skill "codice minimo" in `.claude\skills` + backup qui
+- 2026-10-24 — **Android cmdline-tools** (dl.google.com) → `%LOCALAPPDATA%\Android\Sdk`; clonati `Gathin23/cleanyourtv` + `NikhilSiddhu/firetv-tvos` in `PROGETTI AI\FireStick-launcher`
+- 2026-10-24 — **Fire TV Stick**: adb (winget Google.PlatformTools 37.0.1), Projectivy 4.72 (spocky/miproja1), SmartTube 32.68 (yuliskov/SmartTube), 53 pacchetti disattivati → backup in `PROGETTI AI\FireStick-backup`
 
 - 2026-10-24 — **Wii USB loader**: USB Loader GX v4.0-r1283 (github.com/wiidev/usbloadergx), d2x cIOS installer v11-beta3 (github.com/wiidev/d2x-cios), Nintendont (github.com/FIX94/Nintendont), wit 3.05a (wit.wiimm.de), fat32format 1.07 (ridgecrop.co.uk) → `Desktop\WII` (CHIAVETTA + FORMATTA-E-PREPARA.bat). Chiavetta formattata FAT32 32KB e pronta
 - 2026-10-11 — **replica-skill** (Jakeschincariol): 11 skill per clonare app (recon, build, test, diff…), clonato in `Desktop\replica-skill`, installato in `.claude\skills`
