@@ -95,7 +95,7 @@ Wii homebrew in `Desktop\WII` (chiavetta SanDisk 64GB): USB Loader GX v4.0-r1283
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
-- 2026-10-24 — **Wii USB loader**: USB Loader GX v4.0-r1283 (github.com/wiidev/usbloadergx), d2x cIOS installer v11-beta3 (github.com/wiidev/d2x-cios), Nintendont (github.com/FIX94/Nintendont), wit 3.05a (wit.wiimm.de), fat32format 1.07 (ridgecrop.co.uk) → `Desktop\WII` (CHIAVETTA da copiare + FORMATTA-E-PREPARA.bat). Chiavetta non ancora formattata
+- 2026-10-24 — **Wii USB loader**: USB Loader GX v4.0-r1283 (github.com/wiidev/usbloadergx), d2x cIOS installer v11-beta3 (github.com/wiidev/d2x-cios), Nintendont (github.com/FIX94/Nintendont), wit 3.05a (wit.wiimm.de), fat32format 1.07 (ridgecrop.co.uk) → `Desktop\WII` (CHIAVETTA + FORMATTA-E-PREPARA.bat). Chiavetta formattata FAT32 32KB e pronta
 - 2026-10-11 — **replica-skill** (Jakeschincariol): 11 skill per clonare app (recon, build, test, diff…), clonato in `Desktop\replica-skill`, installato in `.claude\skills`
 - 2026-10-11 — MCP delle app ora partono solo se l'app è aperta (`.claude\mcp-gate\gate.js`), così non rallentano l'avvio e REA si connette
 - 2026-10-11 — REA in timeout anche a 120s quando partono tutti gli MCP insieme (da solo ci mette 17-31s): `MCP_TIMEOUT` portato a 300000 (5 min)
