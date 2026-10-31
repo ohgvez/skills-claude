@@ -85,6 +85,7 @@ Backup config: `.claude.json.rea.backup`. Ghidra in `C:\Users\Federico\ghidra\gh
 | `Desktop\rea` | REA reverse engineering (sottomodulo unblob non scaricabile su Windows, non serve) | morluto/rea |
 | `Desktop\PROGETTI AI\freellmapi` | FreeLLMAPI: unisce i free tier di 34 provider LLM (Groq, Gemini, Cerebras, OpenRouter…) dietro un unico endpoint `/v1` OpenAI/Anthropic-compatibile, con failover automatico. Funziona con Claude Code, Cursor, Cline ecc. ✅ Installato e avviato (build Node, dashboard http://localhost:3001; avvio: `AVVIA.bat` nella cartella; `.env` con ENCRYPTION_KEY — NON perderla). Mancano account dashboard + chiavi provider | tashfeenahmed/freellmapi (MIT) |
 | `Desktop\PROGETTI AI\voicestudio` | VoiceStudio: alternativa locale a ElevenLabs — voice cloning, voice design, doppiaggio video, dettatura, trascrizione, audiolibri (646 lingue), ha anche API locale + MCP. ✅ App v0.5.7 installata (`%LOCALAPPDATA%\Programs\VoiceStudio`, icona sul Desktop); repo = solo codice sorgente. Su CPU usare il preset leggero (KittenTTS/Supertonic/PocketTTS + Whisper piccolo) | debpalash/voicestudio (AGPL-3.0) |
+| `Desktop\PROGETTI AI\earshot` | earshot: "orecchie" per agenti AI — descrive/valuta suoni, trova momenti in registrazioni lunghe, sync audio-video, critica launch video, genera SFX in codice (forge, banca 252 suoni). CLI + Python + server MCP, solo CPU. Solo clonato, non installato | Leonxlnx/earshot (MIT) |
 
 ## 5. App / software installati rilevanti
 
@@ -104,6 +105,7 @@ Wii homebrew in `Desktop\WII` (chiavetta SanDisk 64GB): USB Loader GX v4.0-r1283
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
+- 2026-10-31 — **earshot** (github.com/Leonxlnx/earshot, MIT): ascolto/analisi/generazione suoni per agenti, clonato in `PROGETTI AI\earshot`, non installato
 - 2026-10-31 — **VoiceStudio 0.5.7** installato (installer GitHub release, SHA256 verificato, setup per-utente)
 - 2026-10-31 — **voicestudio** (github.com/debpalash/voicestudio, AGPL-3.0): voice cloning/dubbing locale, clonato in `PROGETTI AI\voicestudio`, non installato
 - 2026-10-31 — **freellmapi** avviato: `npm install` + `npm run build`, server su :3001, launcher `AVVIA.bat`
