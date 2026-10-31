@@ -24,6 +24,7 @@ Config in `C:\Users\Federico\.claude.json` → `mcpServers`.
 | graphify-mcp | Knowledge graph del codice (opzionale) | `uv tool` graphifyy | github.com/safishamsi/graphify | ⚠️ disponibile, non registrato |
 | vocaloid6-mcp | Comanda Vocaloid 6 | `Desktop\vocaloid6-mcp` | github.com/nigexiaolaji/vocaloid6-mcp | ⚠️ clonato, NON registrato |
 | **REA** (rea-agents) | Reverse engineering di app/exe/siti | `Desktop\rea` (+ npm globale v6.4.0) | github.com/morluto/rea | ✅ registrato in Claude Code con Ghidra 12.1.4 + JDK 21 → analizza anche .exe/.dll |
+| earshot | Fa ascoltare/analizzare/generare suoni a Claude (16 tool) | `PROGETTI AI\earshot` | github.com/Leonxlnx/earshot | ✅ registrato (user scope), EARSHOT_THREADS=2 |
 
 **REA — come è stato installato** (PowerShell blocca `npm`, usare `npm.cmd`):
 ```
@@ -83,7 +84,6 @@ Backup config: `.claude.json.rea.backup`. Ghidra in `C:\Users\Federico\ghidra\gh
 | `Desktop\MioMod` | Mod Minecraft Fabric | FabricMC/fabric-example-mod |
 | `Desktop\agent-reach` | Ricerca su social/web | Panniantong/agent-reach |
 | `Desktop\rea` | REA reverse engineering (sottomodulo unblob non scaricabile su Windows, non serve) | morluto/rea |
-| earshot | Fa ascoltare/analizzare/generare suoni a Claude (16 tool) | `PROGETTI AI\earshot` | github.com/Leonxlnx/earshot | ✅ registrato (user scope), EARSHOT_THREADS=2 |
 | `Desktop\PROGETTI AI\freellmapi` | FreeLLMAPI: unisce i free tier di 34 provider LLM (Groq, Gemini, Cerebras, OpenRouter…) dietro un unico endpoint `/v1` OpenAI/Anthropic-compatibile, con failover automatico. Funziona con Claude Code, Cursor, Cline ecc. ✅ Installato e avviato (build Node, dashboard http://localhost:3001; avvio: `AVVIA.bat` nella cartella; `.env` con ENCRYPTION_KEY — NON perderla). Mancano account dashboard + chiavi provider | tashfeenahmed/freellmapi (MIT) |
 | `Desktop\PROGETTI AI\voicestudio` | VoiceStudio: alternativa locale a ElevenLabs — voice cloning, voice design, doppiaggio video, dettatura, trascrizione, audiolibri (646 lingue), ha anche API locale + MCP. ✅ App v0.5.7 installata (`%LOCALAPPDATA%\Programs\VoiceStudio`, icona sul Desktop); repo = solo codice sorgente. Su CPU usare il preset leggero (KittenTTS/Supertonic/PocketTTS + Whisper piccolo) | debpalash/voicestudio (AGPL-3.0) |
 | `Desktop\PROGETTI AI\earshot` | earshot: "orecchie" per agenti AI — descrive/valuta suoni, trova momenti in registrazioni lunghe, sync audio-video, critica launch video, genera SFX in codice (forge, banca 252 suoni). CLI + Python + server MCP, solo CPU. ✅ Installato (venv `.venv` Python 3.13, torch CPU, modelli CLAP+AST 1,1 GB in `.cache`) e registrato come MCP `earshot` | Leonxlnx/earshot (MIT) |
