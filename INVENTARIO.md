@@ -83,6 +83,7 @@ Backup config: `.claude.json.rea.backup`. Ghidra in `C:\Users\Federico\ghidra\gh
 | `Desktop\MioMod` | Mod Minecraft Fabric | FabricMC/fabric-example-mod |
 | `Desktop\agent-reach` | Ricerca su social/web | Panniantong/agent-reach |
 | `Desktop\rea` | REA reverse engineering (sottomodulo unblob non scaricabile su Windows, non serve) | morluto/rea |
+| `Desktop\PROGETTI AI\freellmapi` | FreeLLMAPI: unisce i free tier di 34 provider LLM (Groq, Gemini, Cerebras, OpenRouter…) dietro un unico endpoint `/v1` OpenAI/Anthropic-compatibile, con failover automatico. Funziona con Claude Code, Cursor, Cline ecc. Solo clonato, non installato (serve Node o Docker + chiavi gratuite dei provider) | tashfeenahmed/freellmapi (MIT) |
 
 ## 5. App / software installati rilevanti
 
@@ -102,6 +103,7 @@ Wii homebrew in `Desktop\WII` (chiavetta SanDisk 64GB): USB Loader GX v4.0-r1283
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
+- 2026-10-31 — **freellmapi** (github.com/tashfeenahmed/freellmapi, MIT): router gratuito multi-provider LLM, clonato in `PROGETTI AI\freellmapi` (31 MB), non ancora avviato
 - 2026-10-24 — **ponytail** (DietrichGebert/ponytail, MIT): 6 skill "codice minimo" in `.claude\skills` + backup qui
 - 2026-10-24 — **Android cmdline-tools** (dl.google.com) → `%LOCALAPPDATA%\Android\Sdk`; clonati `Gathin23/cleanyourtv` + `NikhilSiddhu/firetv-tvos` in `PROGETTI AI\FireStick-launcher`
 - 2026-10-24 — **Fire TV Stick**: adb (winget Google.PlatformTools 37.0.1), Projectivy 4.72 (spocky/miproja1), SmartTube 32.68 (yuliskov/SmartTube), 53 pacchetti disattivati → backup in `PROGETTI AI\FireStick-backup`
