@@ -100,7 +100,7 @@ Fire TV Stick (AFTSSS, 192.168.1.164): Projectivy Launcher 4.72 (github.com/spoc
 
 After Effects 2026, Photoshop 2026, Premiere Pro 2026, FL Studio 2026, Blender 5.2, Houdini FX 20.0, Studio One 6 Pro, Synthesizer V Studio, Vocaloid 6, iZotope Nectar 4 / Neutron 5, Audacity 4.
 
-pluginval 1.0.4 (github.com/Tracktion/pluginval, release ufficiale, zip SHA256 C08E61CE…15AB, exe non firmato): validatore standard dei plugin VST3, in `PROGETTI AI	ools\pluginval-1.0.4in\pluginval.exe` — usato per testare SeedForge.
+pluginval 1.0.4 (github.com/Tracktion/pluginval, release ufficiale, zip SHA256 C08E61CE…15AB, exe non firmato): validatore standard dei plugin VST3, in `PROGETTI AI\tools\pluginval-1.0.4\bin\pluginval.exe` — usato per testare SeedForge.
 
 Wii homebrew in `Desktop\WII` (chiavetta SanDisk 64GB): USB Loader GX v4.0-r1283, d2x cIOS v11-beta3, Nintendont, wit 3.05a, fat32format 1.07.
 
@@ -110,7 +110,7 @@ Wii homebrew in `Desktop\WII` (chiavetta SanDisk 64GB): USB Loader GX v4.0-r1283
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
-- 2026-10-31 — **pluginval 1.0.4** (github.com/Tracktion/pluginval, GPL-3.0): zip ufficiale 2.4 MB, SHA256 C08E61CE3B96DB41636F8EC7E76F4C7E2C13EBDAC7FA1B5A1F52B4F32EC715AB, in `PROGETTI AI	ools\pluginval-1.0.4` — test di SeedForge
+- 2026-10-31 — **pluginval 1.0.4** (github.com/Tracktion/pluginval, GPL-3.0): zip ufficiale 2.4 MB, SHA256 C08E61CE3B96DB41636F8EC7E76F4C7E2C13EBDAC7FA1B5A1F52B4F32EC715AB, in `PROGETTI AI\tools\pluginval-1.0.4` — test di SeedForge
 - 2026-10-31 — **open-seo** (github.com/every-app/open-seo, MIT): tool SEO + MCP, clonato in `PROGETTI AI\open-seo`, non installato
 - 2026-10-31 — **RobustVideoMatting** preparato: venv + `greenscreen.py` + `GREENSCREEN.bat` drag&drop, testato ok
 - 2026-10-31 — **RobustVideoMatting** (github.com/PeterL1n/RobustVideoMatting): clonato in `PROGETTI AI\RobustVideoMatting` + modello mobilenetv3 dalla release v1.0.0
