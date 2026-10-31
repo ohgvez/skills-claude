@@ -84,7 +84,7 @@ Backup config: `.claude.json.rea.backup`. Ghidra in `C:\Users\Federico\ghidra\gh
 | `Desktop\agent-reach` | Ricerca su social/web | Panniantong/agent-reach |
 | `Desktop\rea` | REA reverse engineering (sottomodulo unblob non scaricabile su Windows, non serve) | morluto/rea |
 | `Desktop\PROGETTI AI\freellmapi` | FreeLLMAPI: unisce i free tier di 34 provider LLM (Groq, Gemini, Cerebras, OpenRouter…) dietro un unico endpoint `/v1` OpenAI/Anthropic-compatibile, con failover automatico. Funziona con Claude Code, Cursor, Cline ecc. ✅ Installato e avviato (build Node, dashboard http://localhost:3001; avvio: `AVVIA.bat` nella cartella; `.env` con ENCRYPTION_KEY — NON perderla). Mancano account dashboard + chiavi provider | tashfeenahmed/freellmapi (MIT) |
-| `Desktop\PROGETTI AIoicestudio` | VoiceStudio: alternativa locale a ElevenLabs — voice cloning, voice design, doppiaggio video, dettatura, trascrizione, audiolibri (646 lingue), ha anche API locale + MCP. Solo clonato (185 MB), non installato; su CPU senza GPU è lento | debpalash/voicestudio (AGPL-3.0) |
+| `Desktop\PROGETTI AI\voicestudio` | VoiceStudio: alternativa locale a ElevenLabs — voice cloning, voice design, doppiaggio video, dettatura, trascrizione, audiolibri (646 lingue), ha anche API locale + MCP. Solo clonato (185 MB), non installato; su CPU senza GPU è lento | debpalash/voicestudio (AGPL-3.0) |
 
 ## 5. App / software installati rilevanti
 
@@ -104,7 +104,7 @@ Wii homebrew in `Desktop\WII` (chiavetta SanDisk 64GB): USB Loader GX v4.0-r1283
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
-- 2026-10-31 — **voicestudio** (github.com/debpalash/voicestudio, AGPL-3.0): voice cloning/dubbing locale, clonato in `PROGETTI AIoicestudio`, non installato
+- 2026-10-31 — **voicestudio** (github.com/debpalash/voicestudio, AGPL-3.0): voice cloning/dubbing locale, clonato in `PROGETTI AI\voicestudio`, non installato
 - 2026-10-31 — **freellmapi** avviato: `npm install` + `npm run build`, server su :3001, launcher `AVVIA.bat`
 - 2026-10-31 — **freellmapi** (github.com/tashfeenahmed/freellmapi, MIT): router gratuito multi-provider LLM, clonato in `PROGETTI AI\freellmapi` (31 MB), non ancora avviato
 - 2026-10-24 — **ponytail** (DietrichGebert/ponytail, MIT): 6 skill "codice minimo" in `.claude\skills` + backup qui
