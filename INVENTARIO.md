@@ -87,7 +87,8 @@ Backup config: `.claude.json.rea.backup`. Ghidra in `C:\Users\Federico\ghidra\gh
 | `Desktop\PROGETTI AI\freellmapi` | FreeLLMAPI: unisce i free tier di 34 provider LLM (Groq, Gemini, Cerebras, OpenRouter…) dietro un unico endpoint `/v1` OpenAI/Anthropic-compatibile, con failover automatico. Funziona con Claude Code, Cursor, Cline ecc. ✅ Installato e avviato (build Node, dashboard http://localhost:3001; avvio: `AVVIA.bat` nella cartella; `.env` con ENCRYPTION_KEY — NON perderla). Mancano account dashboard + chiavi provider | tashfeenahmed/freellmapi (MIT) |
 | `Desktop\PROGETTI AI\voicestudio` | VoiceStudio: alternativa locale a ElevenLabs — voice cloning, voice design, doppiaggio video, dettatura, trascrizione, audiolibri (646 lingue), ha anche API locale + MCP. ✅ App v0.5.7 installata (`%LOCALAPPDATA%\Programs\VoiceStudio`, icona sul Desktop); repo = solo codice sorgente. Su CPU usare il preset leggero (KittenTTS/Supertonic/PocketTTS + Whisper piccolo) | debpalash/voicestudio (AGPL-3.0) |
 | `Desktop\PROGETTI AI\earshot` | earshot: "orecchie" per agenti AI — descrive/valuta suoni, trova momenti in registrazioni lunghe, sync audio-video, critica launch video, genera SFX in codice (forge, banca 252 suoni). CLI + Python + server MCP, solo CPU. ✅ Installato (venv `.venv` Python 3.13, torch CPU, modelli CLAP+AST 1,1 GB in `.cache`) e registrato come MCP `earshot` | Leonxlnx/earshot (MIT) |
-| `Desktop\PROGETTI AI\RobustVideoMatting` | RVM: scontorna persone nei video (green screen / alpha), veloce anche su CPU. Clonato + modello leggero `rvm_mobilenetv3.pth` (15 MB); dipendenze NON installate | PeterL1n/RobustVideoMatting (GPL-3.0) |
+| `Desktop\PROGETTI AI\RobustVideoMatting` | RVM: scontorna persone nei video (green screen / alpha), veloce anche su CPU. Clonato + modello leggero `rvm_mobilenetv3.pth` (15 MB); ✅ pronto: venv `.venv` (torch 2.15 CPU, av 19), **trascina un video su `GREENSCREEN.bat`** → cartella `<nome>_greenscreen` con `_green.mp4` (audio originale) + `_alpha.mp4` (maschera); `--png` = sequenza trasparente, `--hq` = resnet50. Patch PyAV 19 in `inference_utils.py`. Velocità ~30 s per 1 s di video a 960x540 su questo portatile | PeterL1n/RobustVideoMatting (GPL-3.0) |
+| `Desktop\PROGETTI AI\open-seo` | OpenSEO: alternativa open source a Semrush/Ahrefs (keyword research, rank tracking, competitor, backlink, site audit, visibilità AI) con server MCP + skill per Claude. Solo clonato (57 MB); per usarlo serve Docker o Cloudflare + chiave DataForSEO a consumo | every-app/open-seo (MIT) |
 
 ## 5. App / software installati rilevanti
 
@@ -107,6 +108,8 @@ Wii homebrew in `Desktop\WII` (chiavetta SanDisk 64GB): USB Loader GX v4.0-r1283
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
+- 2026-10-31 — **open-seo** (github.com/every-app/open-seo, MIT): tool SEO + MCP, clonato in `PROGETTI AI\open-seo`, non installato
+- 2026-10-31 — **RobustVideoMatting** preparato: venv + `greenscreen.py` + `GREENSCREEN.bat` drag&drop, testato ok
 - 2026-10-31 — **RobustVideoMatting** (github.com/PeterL1n/RobustVideoMatting): clonato in `PROGETTI AI\RobustVideoMatting` + modello mobilenetv3 dalla release v1.0.0
 - 2026-10-31 — **earshot** installato: venv + torch CPU + `doctor --fetch` ok; MCP aggiunto a `~/.claude.json` (backup `.claude.json.bak-earshot`)
 - 2026-10-31 — **earshot** (github.com/Leonxlnx/earshot, MIT): ascolto/analisi/generazione suoni per agenti, clonato in `PROGETTI AI\earshot`, non installato
