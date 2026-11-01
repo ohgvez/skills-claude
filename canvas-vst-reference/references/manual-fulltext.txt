@@ -1,0 +1,496 @@
+User Manual
+
+         A new way to mix.
+
+    Canvas 1.0 · by Art DSP · artdsp.net
+Contents
+
+1 Welcome to Canvas
+2 Installation & Setup
+3 Quick Start
+4 The Canvas
+5 Settings
+6 Tools
+7 The Track Panel
+8 Make Space (Sidechain Ducking)
+9 Presets & Templates
+10 Reference
+CHAPTER 1
+
+Welcome to Canvas
+
+What is Canvas
+
+Canvas transforms your mix into an interactive virtual soundstage. Every track becomes a colored,
+breathing blob in an x-y-z canvas, drawn from its audio in real time. The canvas shows where it sits
+in the stereo field (x), which frequencies it fills (y), and how loud it is (z).
+Mix by moving the sounds themselves. Drag a blob to change its tone, stereo position and
+perceived depth. Behind the scenes, every gesture becomes real EQ, pan, width, volume and
+dynamics on the track.
+
+Multi instance Consolidation
+
+Put Canvas on each track you want to see. Every instance in the project sees the others, so
+opening any single Canvas window shows the whole mix. You can edit any track from any window.
+
+Formats & requirements
+
+Canvas ships as an AU, VST3 and AAX plugin.
+CHAPTER 2
+
+Installation & Setup
+
+Installing
+
+Download the installer from artdsp.net/downloads, run it, then restart your DAW (or rescan
+plugins).
+
+First run
+
+The first time Canvas opens, your 14-day free trial starts. The trial is fully functional. A badge in
+the top bar counts down the days. Open the license screen from that badge (or Settings >
+License) and enter your serial key if you purchased. Activation is covered below.
+
+Activating
+
+Buy at artdsp.net and your serial key lands in your email right after checkout. Enter it in the
+license screen (from the top-bar badge, or Settings > License). Activate in one window and every
+other open instance picks it up immediately.
+
+Machine slots
+
+A serial covers 3 machines. Moving to a new computer? Deactivate on an old one to free the slot,
+then activate on the new one.
+
+Updates
+
+Canvas checks for updates. When there's a new version, a green Update available badge
+appears in the top bar, and once per DAW session you'll get a modal with the combined changelog
+of everything you've missed. Downloads are at artdsp.net/downloads.
+CHAPTER 3
+
+Quick Start
+
+Adding Canvas to your tracks
+
+Insert Canvas on each track you want visualized, just like any insert effect. Last in the chain is
+usually best so Canvas visualizes the track the way you hear it. Opening a single Canvas instance
+allows you to see all of your instances. Each instance reads its track name from your DAW. If your
+host doesn't send names, you can name tracks yourself; more in the side panel's right-click menu.
+
+   Tip: If your tracks aren't showing up in the panel, make sure every track uses the same
+   plugin format: VST3 instances only see other VST3 instances, AU only sees AU, AAX only
+   sees AAX. Mixing formats splits your mix into separate rooms.
+
+Reading the Canvas
+
+The Canvas has three axes, and all three show what the audio is really doing.
+    Left to right is stereo position. A blob near the left wall is a sound panned left.
+    Up and down is frequency. The labels on the right wall run from 0 Hz at the floor to 18 kHz at
+    the ceiling.
+    Back and front is loudness. Louder sounds come toward you, quiet ones sink toward the back
+    wall.
+
+The shapes of the blobs mimic the audio you are hearing. A mono sound stands as a single
+column. A hard-panned double shows two lobes with a gap between them. A blob's height covers
+the frequencies the sound actually fills.
+CHAPTER 4
+
+The Canvas
+
+When first opening the plugin, you will see the canvas screen. Here's the tour, numbered on the
+screenshot below.
+
+            4                               56
+
+2
+                                                                                                  3
+
+                       1
+
+                                     The Canvas with a sound selected. Numbers match the list below.
+
+1 Blobs: one per track, drawn from the audio itself. See Reading the Canvas.
+2 The tool dock.
+3 The arrow handle opens the track panel, which lists every Canvas instance in the project. See
+
+    The Track Panel.
+4 Presets: the "Apply preset to ..." picker. Only visible while a blob is selected. See Presets &
+
+    Templates.
+5 Settings: the gear opens the settings menu. Settings are covered in Settings.
+6 Front / Free: Toggle between a fixed (square) front view, or free (cube) which allows you to
+
+    drag empty space to move around, scroll to zoom in and out.
+
+            Front view, fixed and flat-on.  Free view, orbit and zoom.
+CHAPTER 5
+
+Settings
+
+The settings menu, opened from the gear in the top bar, holds Canvas's global preferences: how
+the blobs render, what the toolbar shows, appearance, and your license.
+
+                                                                          The gear menu
+
+Source Blob
+
+Controls various graphical configurations for the blobs.
+    Form: How solid the body reads, from soft smoke to dense.
+    Frequency Sensitivity: How much quiet spectral content shows. Low means only the loud core,
+    high means every whisper.
+    Width Averaging: At 0% the stereo image follows every hit live. At 100% you see the averaged
+    stereo image.
+    Smoothness: Motion damping, from twitchy to heavy glide.
+    Hold Time How long the blob is visually held after its audio stops (Fader mode). How long the
+    depth holds at peaks (Live mode).
+    Depth: Controls how blob depth is derived. Fader: a blob's depth mirrors its volume knob. Live:
+    Depth follows the measured loudness of your audio.
+    Reset to defaults puts the Source Blob controls back to default.
+CHAPTER 5 · SETTINGS
+
+Toolbar
+
+EQ Profile shows or hides the live EQ profile box under the toolbar.
+
+Appearance
+
+    Theme: Dark or Light.
+    Performance Mode: lighter rendering for big sessions. Blobs draw softer with less detail.
+    License: your activation status and controls. See Installation & Setup.
+CHAPTER 6
+
+Tools
+
+The dock on the left edge of the Canvas is where the mixing happens. It
+includes moving a sound's frequency via EQ, shaping its shelves, painting EQ
+in or out, widening, panning and volume. Pick a tool, then work directly on the
+selected sound. Every tool has a single-key shortcut, and a chip near the
+cursor reads out live values while you work.
+A few things hold true for the whole dock:
+
+    Tools act on the selected sound. With nothing selected, the edit tools dim as
+    a reminder to click a blob first.
+    Scroll almost always does something useful: EQ gain on Freq, brush size on
+    the brushes, shelf Q on Shelf, volume on Vol.
+    Right-click a tool button to reset what that tool controls.
+
+                                                                                                                                                  The tool dock
+CHAPTER 6 · TOOLS
+
+Select Q
+
+                         Pads selected in the image. The pad blobs hold the glow, everything else steps back.
+
+Click a blob to select it. The selected sound holds its glow while everything else steps back, its
+panel row lights up, and the float panel appears with its knobs. Click empty space, the blob again,
+or blank panel space to deselect.
+Hold Shift and drag a blob to move it freely, frequency and pan together, without leaving the
+Select tool. While you drag, the Freq and Pan buttons light up in the dock to show what the move is
+driving.
+The Select button shares its dock slot with two siblings. Hold the button to switch between them:
+
+    Grab ( G ): drag a blob anywhere, frequency and pan together, no modifier needed.
+    Auto Select ( X ): a toggle. While it's lit, clicking a blob selects it no matter which tool you're
+    holding (the paint brushes are the exception, they keep painting).
+CHAPTER 6 · TOOLS
+
+Freq F
+
+  Dragging the Pads. The chip reads out the frequency as you move, and the tinted band shows where the emphasis sits.
+
+The Freq tool moves the sound's frequency emphasis, which uses a single static bell EQ curve,
+placed wherever you drag.
+
+    Click and drag up or down to move the frequency emphasis.
+    Scroll up/down in the Canvas to adjust the intensity (the gain of the bell EQ).
+    Scroll left/right in the Canvas to adjust the range of the emphasis (the Q of the bell EQ).
+    The knobs in the bottom bar mirror what you're moving. Drag one for finer control, hold Shift
+    while dragging for finer still, and double-click its value to type an exact number. This applies to
+    all knobs and sliders in all tools.
+    EXTREME dynamically EQ's the sound from a gentle push to full isolation. Everything outside
+    the bell gets cut hard, up to 64 dB, so the sound only exists where you placed it. Inside the bell,
+    Canvas measures how much of the sound's energy actually lives there and boosts by exactly
+    what's needed to keep the sound at full loudness. A sparse band gets a big lift, a loaded band
+    barely moves. This is great for forcing a sound into a specific pocket of the mix.
+CHAPTER 6 · TOOLS
+
+Shelf S
+
+              The Highs and Lows pivot lines, with the shelf knobs (Gain, Freq, Q for each shelf) in the panel below.
+
+The shelf allows you to quickly add/remove highs and/or lows to a specific sound. Two dashed
+lines cross the canvas at the high-shelf and low-shelf cutoffs, and tinted zones show what each
+shelf reaches. This tool allows you
+
+    Drag up/down in the upper zone to brighten or soften the highs. The lower zone shapes the
+    lows the same way.
+    Drag a dashed line up/down to move that shelf's cutoff. A Hz readout rides along with the
+    cursor.
+    Scroll up/down inside a zone to set that shelf's Q, which is how steep the transition is. You'll
+    see the zone's gradient tighten or relax.
+    Shift-drag to stretch: both shelves move in opposition, so one gesture gets you brighter on top
+    and softer below.
+CHAPTER 6 · TOOLS
+
+Add A
+
+     Holding the Add brush on the Pads. The stream shows the band being painted, with a live Hz readout at the brush.
+
+Add is a paint brush for EQ. Hold the mouse down over the frequencies you want more of and the
+boost builds the longer you hold. Scroll to change the brush size.
+Your strokes turn into editable EQ points (up to 12) which you can fine tune later in the EQ Editor.
+Use the Clear Paint button to remove any boosts applied to the sound.
+CHAPTER 6 · TOOLS
+
+Subtract Z
+
+                                               Subtract at work on the sound. to carve the band out.
+
+Subtract is the opposite of add. This tool allows you to hold your cursor on the canvas to carve
+that band out of the sound.
+CHAPTER 6 · TOOLS
+
+Widen W
+
+    Widening the Pads: drag right and the body stretches across the stereo field. The style picker sits in the options bar.
+
+Drag right to widen the stereo image, left to narrow it. The options bar offers three width styles:
+    Modern - Mono-safe clean broadband widening.
+    Haas - Mono-safe short delay width with more depth to it
+   PingPong - Rhythmic hard left/right echoes for dramatic movement. This one is intentionally not
+   mono-compatible
+CHAPTER 6 · TOOLS
+
+Pan P
+
+                               Panning the Pads. The chip reads 15% R while the drag is held. EQ stays put.
+
+Drag left or right to pan. The chip shows the pan position as you go.
+CHAPTER 6 · TOOLS
+
+Vol V
+
+               Riding the Pads' volume. Same parameter as the knob in its panel row, shown live under the Canvas.
+
+Drag up or down (or scroll) to change the track's post-effect volume.
+CHAPTER 6 · TOOLS
+
+Right-click on a selected blob
+
+                                                Right-clicking the selected Pads blob on the Canvas.
+
+Right-click the Canvas on a selected blob (or any blob under the cursor) and a small menu opens:
+    Solo: mute every other Canvas track. Solo again to restore.
+    Mute: mute this track. Its blob disappears instantly.
+    Hide: hide the blob from the Canvas without touching the audio. Same as the eye in the track
+    panel.
+    Reset Blob: put every effect on this sound (EQ, shelves, pan, width, volume) back to defaults. It
+    asks before it wipes anything.
+CHAPTER 6 · TOOLS
+
+The EQ Editor
+
+       The EQ editor open on the selected Pads: five painted points sitting on the live curve, with the analyzer behind.
+
+All EQ based adjustments, including everything you paint with Add and Subtract condenses into
+editable EQ points on an EQ curve over the analyzer. Open the editor by clicking the small EQ
+profile box above Auto-Gain (visible while a sound is selected); drag its corner to resize, double-
+click to snap it back.
+
+    Drag a point to move its frequency and gain.
+    Scroll on a point to change its width.
+    Double-click to delete it. Right-click for more options.
+    Each point has numeric fields for frequency, gain and width when you want exact values.
+    Points are host-automatable, so you can sweep them from your DAW.
+While a sound is selected, three knobs also float over the Canvas: Focus (frequency), Q and
+Intensity. Hover or drag to see a knob's value; double-click the knob to reset it, or double-click the
+value to type an exact number. The EXTREME button next to them is covered on the Freq page.
+CHAPTER 6 · TOOLS
+
+Auto-Gain
+
+Below the dock, under the EQ profile box, sits Auto-Gain. It keeps a track's loudness steady while
+you work. Canvas matches the processed volume to what came in before the effects..
+
+Disable
+
+The power button at the very bottom of the dock bypasses effects on your track. Audio passes
+through untouched and the blob turns grey while it's off.
+CHAPTER 7
+
+The Track Panel
+
+                                     Click the arrow handle on the right edge of the Canvas (or press
+                                      Tab ) to open the track panel. It lists every Canvas instance in
+
+                                     the project, one row per track, so you can manage the whole mix
+                                     from any window. Drag the handle to resize the panel.
+
+The arrow handle on the right edge.
+
+What's in a row
+
+                               A row: color stripe, name, SC badge, volume knob, mute, and visibility toggle.
+
+    Name: your DAW's track name, synced to every window. If the host didn't provide one, the row
+    shows "Instance N" and a plain click on the name lets you type one. Named rows are renamed
+    from the right-click menu.
+    SC: opens this track's "takes space from" editor. See Make Space.
+    Volume knob: the track's post gain, per blob. It's the same parameter the Vol tool drags, just in
+    knob form.
+    Mute dot and eye: audio and visual mute/solo. Next section.
+
+Mute & solo, audio and visual
+
+Each row ends with two controls that mirror each other: the mute dot works on the audio, the eye
+works on the view.
+
+    Click the mute dot: mute or unmute the track. A muted track's blob disappears instantly.
+    Right-click the mute dot: solo the audio. Everyone else mutes; right-click again to restore.
+    Click the eye: hide or show the blob. Audio keeps playing; only the Canvas changes.
+    Right-click the eye: solo the view. Every other blob hides.
+    Hold Shift and the two become one button: a capsule wraps around the pair. Shift-click mutes
+   and hides together; shift-right-click solos audio and view together.
+CHAPTER 7 · THE TRACK PANEL
+
+Right-click a row
+
+The row menu: enable, colour,  Right-click anywhere on a row and its menu opens:
+      copy/paste, rename.
+                                   Enabled: toggle the track's bypass. A bypassed track
+                                   passes audio untouched and its blob turns grey.
+                                   Colour: pick the track's identity color, used by its blob, row
+                                   and everywhere else.
+                                   Copy / Paste settings: move one track's whole treatment
+                                   onto another (EQ, Panning, width). This includes sidechain
+                                   data
+                                   Rename / Reset name: name the track inside Canvas, or
+                                   go back to the host's name.
+
+Working the panel
+
+    Hover a row to spotlight its blob. Click to select or deselect. Blank space below the rows
+    deselects.
+    Drag rows to reorder. The order is shared across every open window, and a "Current" badge
+    marks the instance you're looking at.
+    The Mix template bar at the top applies whole-mix presets. See Presets & Templates.
+CHAPTER 8
+
+Make Space (Sidechain Ducking)
+
+The idea
+
+Sometimes two sounds fight for the same space, like a kick and bass. Make Space allows spectral
+ducking, where one track takes space from others exactly where its energy needs it, and only
+while it's playing. You set it up from the track that takes the space, choosing which sounds duck for
+it.
+
+The Make Space pane                      Open it from a track's SC badge in the panel. Each linked
+                                         track gets a card with:
+  Kick taking space from the Pads: one
+           live link with its controls.      On: enable or mute the link, and × to remove it.
+                                             Amount: how much space gets taken.
+                                             Attack / Release: how fast the space opens and closes.
+                                             Trigger: Amplitude (smooth, follows the level) or Transient
+                                             (snappy, follows the hits).
+
+                                         The duck concentrates where the trigger's energy actually is,
+                                         so a kick can take low-end room from a pad without touching
+                                         its shimmer.
+CHAPTER 8 · MAKE SPACE
+
+Setting up links
+
+Click + Add a track in the pane and pick the tracks that should give way. The SC badge on a
+ducked track's row stays lit the whole time its space is being taken.
+
+Reading the duck
+
+                  The victim's EQ editor while ducking happens: the orange region is the space being taken, live.
+
+    Open the ducked track's EQ editor and the duck draws in orange: a live curve dipping exactly
+    where, and as hard as, the space is being taken.
+CHAPTER 9
+
+Presets & Templates
+
+Instance presets
+
+Per-sound presets capture the full state of one track including EQ, panning, width. Use the "Apply
+preset to ..." picker in the top bar and the save button next to it. Factory presets ship with the
+plugin and keep themselves current. Your own can be saved, renamed and deleted. The Default
+preset is the same thing as Reset Blob.
+
+Mix templates
+
+   Note: Mix templates are an experimental feature. They change parameters on every
+   instance in your project at once, and level matching will adjust track volumes. You can undo
+   the whole operation.
+
+A mix template is a whole-mix starting point. Canvas analyzes your audio and applies a set of
+filters, panning, width and sidechain routing to each track in your mix, keyed by what role the track
+plays (kick, bass, vocal and so on). Apply one from the Mix template bar at the top of the track
+panel.
+CHAPTER 9 · PRESETS & TEMPLATES
+
+Step by step
+
+1. Open the Mix template menu. First time in a session, Canvas asks you to set your DAW faders
+    to 0 dB (any value across the board will work) and make sure Canvas is last in each chain. Do
+    both, then confirm.
+
+Pick a template: factory ones under Art DSP, your own under Yours.
+
+                                                 The setup check that opens the menu the first time.
+
+3. Identify your tracks. Canvas tries its best to identify each track from its name. Unidentified
+    tracks show in red under "No match, tag manually": make sure to categorize them with the type
+    dropdown, or they get skipped. You can also change any automatically matched track types.
+
+4. Click Apply and let your audio play. Canvas measures each track's loudness while it plays and
+    tells you when it's ready.
+
+5. Hit APPLY and watch your knobs change. Every matched track's EQ, pan, width, sidechain and
+    volume glide to the template.
+CHAPTER 9 · PRESETS & TEMPLATES
+
+  The identification step. Audio 8 wasn't recognized, so it sits in red waiting for a category; everything else matched with
+                                                                         high confidence.
+CHAPTER 10
+
+Reference
+
+Keyboard shortcuts
+
+Key            Action                         Key  Action
+ Q
+ X             Select tool                    G    Grab tool
+ S
+ Z             Auto-select toggle             F    Freq tool ( Shift + F : freq + pan)
+ P
+ Tab           Shelf tool                     A    Add brush
+ Shift (hold)
+               Subtract brush                 W    Widen tool
+
+               Pan tool                       V    Vol tool
+
+               Toggle track panel             Esc  Dismiss dialogs (never closes the window)
+
+               Fine control while dragging knobs and values
+
+Mouse & scroll                                     Result
+                                                   Select / deselect
+  Gesture                                          Orbit camera, zoom
+  Click blob / empty space                         Volume, with a value chip
+  Drag empty space, scroll                         EQ gain / brush size / shelf Q
+  Scroll on blob (Vol tool)                        Context menus
+  Scroll (Freq tool / brushes / Shelf zones)       Help tooltip
+  Right-click blob / row / EQ point
+  Hover any control for a second
+
+Getting support
+
+Reach us through support@artdsp.net. Include your DAW, OS version, plugin format (AU, VST3 or
+AAX) and your Canvas version, which is shown on the license screen.
+

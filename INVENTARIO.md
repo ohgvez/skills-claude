@@ -1,15 +1,17 @@
 # INVENTARIO — tutto quello che ho installato/scaricato per Claude
 
 Second brain unico. Ogni volta che si scarica qualcosa (skill, plugin, MCP, repo, tool, app) si aggiunge una riga qui **e** nel [Registro](#registro-cronologico) in fondo.
-Ultimo aggiornamento: 2026-10-24
+Ultimo aggiornamento: 2026-11-01
 
 Legenda stato: ✅ funziona · ⚠️ installato ma da completare · ❌ rotto/non connesso
+
+**Due PC, un solo inventario.** Dove non è scritto altro, percorsi e installazioni sono del **PC Federico** (`C:\Users\Federico`). Le righe con **(PC MSI)** riguardano il portatile MSI GE65 (`C:\Users\Trevor Ohhvez`). Su entrambi il repo sta in `Desktop\PROGETTI AI\skills-claude`; prima di aggiornare fare sempre `git pull`.
 
 ---
 
 ## 1. Server MCP (strumenti che Claude usa per comandare app)
 
-Config in `C:\Users\Federico\.claude.json` → `mcpServers`.
+Config in `C:\Users\Federico\.claude.json` → `mcpServers`. (PC MSI): nessun MCP registrato in Claude Code (al 2026-11-01).
 
 **Avvio intelligente (dal 2026-10-11):** gli MCP delle app (Blender, After Effects, FL, Premiere, Photoshop, Houdini) passano da `C:\Users\Federico\.claude\mcp-gate\gate.js`: partono **solo se il programma è già aperto**, altrimenti escono in ~1s. Quindi: prima apri il programma, poi avvia/riavvia Claude. Backup config prima della modifica: `.claude.json.before-gate.bak`. REA invece parte sempre.
 
@@ -40,8 +42,11 @@ Backup config: `.claude.json.rea.backup`. Ghidra in `C:\Users\Federico\ghidra\gh
 | pdf-viewer | Apri/annota/firma/compila PDF | ✅ |
 | design (Anthropic) | critique, handoff, design-system, ux-copy, accessibilità, user research | ✅ (connettori Figma/Notion/Slack… non autorizzati) |
 | pixelbin | Generazione/editing immagini | ✅ |
+| watermarks-remover 0.5.0 (guillaumemeyer/watermarks-remover) | remove-ai-marks, clean-user-facing-text come plugin | ✅ (PC MSI), installato 2026-08-30 |
 
-## 3. Skill (`C:\Users\Federico\.claude\skills`, backup in questo repo)
+## 3. Skill (`C:\Users\Federico\.claude\skills`, (PC MSI) `C:\Users\Trevor Ohhvez\.claude\skills`, backup in questo repo)
+
+Le cartelle del repo senza `SKILL.md` in cima (Amagine3D, Ear, NodeGraphQt, blender-mcp, book-to-skill, emilkowalski-skills, pixelbin-media-generation, rea, react-bits, txqr, yt-dlp) sono repo di riferimento, non skill: non vanno copiate in `.claude\skills`.
 
 | Data | Gruppo | Fonte | Skill |
 |---|---|---|---|
@@ -68,6 +73,7 @@ Backup config: `.claude.json.rea.backup`. Ghidra in `C:\Users\Federico\ghidra\gh
 | 2026-10-11 | Reverse engineering | morluto/rea | reverse-engineer-anything ✅ (installata da `rea setup`) |
 | 2026-10-24 | Codice minimo (6) | github.com/DietrichGebert/ponytail (MIT, v5.3.2) | ponytail, ponytail-audit, ponytail-debt, ponytail-gain, ponytail-help, ponytail-review ✅ — uso: `/ponytail` (lite/full/ultra), `/ponytail-review`, `/ponytail-audit` |
 | 2026-10-11 | Clonare app (11) | github.com/Jakeschincariol/replica-skill (MIT, repo in `Desktop\replica-skill`) | replica-recon → architect → design → build → backend → test → diff → entrepreneur → brand → launch → deploy ✅ (da usare in ordine, scrivono in `replica/` nel progetto) |
+| 2026-11-01 | VST (PC MSI) | personale | canvas-vst-reference ✅: specifica di Art DSP Canvas 1.0 + checklist di fedeltà per il clone JUCE Canvas3D (`Desktop\canvas3d`) |
 
 ## 4. Repo clonati / progetti
 
@@ -111,6 +117,9 @@ Wii homebrew in `Desktop\WII` (chiavetta SanDisk 64GB): USB Loader GX v4.0-r1283
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
+- 2026-11-01 — (PC MSI) collegato all'inventario: repo clonato in `Desktop\PROGETTI AI\skills-claude`, regola in `~\.claude\CLAUDE.md` per aggiornare inventario + commit a ogni installazione
+- 2026-11-01 — (PC MSI) installate dal repo le 151 skill mancanti (ponytail, replica, remotion, gsap, mattpocock, cline…) → 252 skill in `C:\Users\Trevor Ohhvez\.claude\skills`
+- 2026-11-01 — (PC MSI) aggiunta al repo **canvas-vst-reference**, che esisteva solo sul portatile
 - 2026-10-31 — **pluginval 1.0.4** (github.com/Tracktion/pluginval, GPL-3.0): zip ufficiale 2.4 MB, SHA256 C08E61CE3B96DB41636F8EC7E76F4C7E2C13EBDAC7FA1B5A1F52B4F32EC715AB, in `PROGETTI AI\tools\pluginval-1.0.4` — test di SeedForge
 - 2026-10-31 — **ai-job-search** (github.com/ai-job-search-dev/ai-job-search, MIT): job search con Claude Code, clonato in `PROGETTI AI\ai-job-search`
 - 2026-10-31 — **open-seo** (github.com/every-app/open-seo, MIT): tool SEO + MCP, clonato in `PROGETTI AI\open-seo`, non installato
