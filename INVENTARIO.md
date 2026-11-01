@@ -43,6 +43,7 @@ Backup config: `.claude.json.rea.backup`. Ghidra in `C:\Users\Federico\ghidra\gh
 | design (Anthropic) | critique, handoff, design-system, ux-copy, accessibilità, user research | ✅ (connettori Figma/Notion/Slack… non autorizzati) |
 | pixelbin | Generazione/editing immagini | ✅ |
 | watermarks-remover 0.5.0 (guillaumemeyer/watermarks-remover) | remove-ai-marks, clean-user-facing-text come plugin | ✅ (PC MSI), installato 2026-08-30 |
+| agent-skills 0.6.15 (addyosmani/agent-skills, MIT) | 25 skill di ingegneria (spec → plan → build → test → review → ship: TDD, debugging, sicurezza, performance, API, ADR, git, CI/CD…) + 9 comandi `/spec` `/plan` `/build` `/test` `/review` `/ship` `/code-simplify` `/constraints` `/webperf` (se il nome è già preso: `/agent-skills:review`) + 4 agenti (code-reviewer, security-auditor, test-engineer, web-performance-auditor). Nessun hook attivo (quelli in `hooks/` sono opzionali, da collegare a mano) | ✅ (PC MSI). Installazione: `claude plugin marketplace add https://github.com/addyosmani/agent-skills.git` poi `claude plugin install agent-skills@addy-agent-skills`; senza chiavi SSH serve forzare HTTPS (`url.https://github.com/.insteadOf git@github.com:`). Skill non copiate nel repo: è un plugin, si aggiorna da sé |
 
 ## 3. Skill (`C:\Users\Federico\.claude\skills`, (PC MSI) `C:\Users\Trevor Ohhvez\.claude\skills`, backup in questo repo)
 
@@ -95,6 +96,7 @@ Le cartelle del repo senza `SKILL.md` in cima (Amagine3D, Ear, NodeGraphQt, blen
 | `Desktop\PROGETTI AI\earshot` | earshot: "orecchie" per agenti AI — descrive/valuta suoni, trova momenti in registrazioni lunghe, sync audio-video, critica launch video, genera SFX in codice (forge, banca 252 suoni). CLI + Python + server MCP, solo CPU. ✅ Installato (venv `.venv` Python 3.13, torch CPU, modelli CLAP+AST 1,1 GB in `.cache`) e registrato come MCP `earshot` | Leonxlnx/earshot (MIT) |
 | `Desktop\PROGETTI AI\RobustVideoMatting` | RVM: scontorna persone nei video (green screen / alpha), veloce anche su CPU. Clonato + modello leggero `rvm_mobilenetv3.pth` (15 MB); ✅ pronto: venv `.venv` (torch 2.15 CPU, av 19), **trascina un video su `GREENSCREEN.bat`** → cartella `<nome>_greenscreen` con `_green.mp4` (audio originale) + `_alpha.mp4` (maschera); `--png` = sequenza trasparente, `--hq` = resnet50. Patch PyAV 19 in `inference_utils.py`. Velocità ~30 s per 1 s di video a 960x540 su questo portatile | PeterL1n/RobustVideoMatting (GPL-3.0) |
 | `Desktop\PROGETTI AI\open-seo` | OpenSEO: alternativa open source a Semrush/Ahrefs (keyword research, rank tracking, competitor, backlink, site audit, visibilità AI) con server MCP + skill per Claude. Solo clonato (57 MB); per usarlo serve Docker o Cloudflare + chiave DataForSEO a consumo | every-app/open-seo (MIT) |
+| `Desktop\PROGETTI AI\agent-skills` | (PC MSI) Sorgente del plugin agent-skills di Addy Osmani (1,4 MB), clonato per controllarlo prima di installarlo; il plugin vero sta in `.claude\plugins\cache\addy-agent-skills` | addyosmani/agent-skills (MIT) |
 | `Desktop\PROGETTI AI\ai-job-search` | AI Job Search: framework per cercare lavoro con Claude Code — comandi /setup (profilo), /scrape (annunci), /rank, /apply (CV + lettera su misura), /interview, /outcome. Si apre la cartella in Claude Code e si lancia /setup. Solo clonato (6 MB) | ai-job-search-dev/ai-job-search (MIT) |
 
 ## 5. App / software installati rilevanti
@@ -117,6 +119,7 @@ Wii homebrew in `Desktop\WII` (chiavetta SanDisk 64GB): USB Loader GX v4.0-r1283
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
+- 2026-11-01 — (PC MSI) **agent-skills 0.6.15** (github.com/addyosmani/agent-skills, MIT): plugin Claude Code con 25 skill + 9 comandi + 4 agenti per tutto il ciclo di sviluppo; hook non collegati; sorgente clonato in `PROGETTI AI\agent-skills`
 - 2026-11-01 — (PC MSI) collegato all'inventario: repo clonato in `Desktop\PROGETTI AI\skills-claude`, regola in `~\.claude\CLAUDE.md` per aggiornare inventario + commit a ogni installazione
 - 2026-11-01 — (PC MSI) installate dal repo le 151 skill mancanti (ponytail, replica, remotion, gsap, mattpocock, cline…) → 252 skill in `C:\Users\Trevor Ohhvez\.claude\skills`
 - 2026-11-01 — (PC MSI) aggiunta al repo **canvas-vst-reference**, che esisteva solo sul portatile
