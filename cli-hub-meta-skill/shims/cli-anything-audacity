@@ -1,0 +1,5 @@
+#!/bin/sh
+V="/c/Users/Federico/Desktop/PROGETTI AI/CLI-Anything/.venv/Scripts"
+export CLI_HUB_NO_ANALYTICS=1 PYTHONUTF8=1
+export PATH="$V:/c/Program Files/Blender Foundation/Blender 5.2:$PATH"
+exec "$V/cli-anything-audacity.exe" "$@"
