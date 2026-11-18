@@ -1,7 +1,7 @@
 # INVENTARIO — tutto quello che ho installato/scaricato per Claude
 
 Second brain unico. Ogni volta che si scarica qualcosa (skill, plugin, MCP, repo, tool, app) si aggiunge una riga qui **e** nel [Registro](#registro-cronologico) in fondo.
-Ultimo aggiornamento: 2026-11-01
+Ultimo aggiornamento: 2026-11-18
 
 Legenda stato: ✅ funziona · ⚠️ installato ma da completare · ❌ rotto/non connesso
 
@@ -98,6 +98,8 @@ Le cartelle del repo senza `SKILL.md` in cima (Amagine3D, Ear, NodeGraphQt, blen
 | `Desktop\PROGETTI AI\open-seo` | OpenSEO: alternativa open source a Semrush/Ahrefs (keyword research, rank tracking, competitor, backlink, site audit, visibilità AI) con server MCP + skill per Claude. Solo clonato (57 MB); per usarlo serve Docker o Cloudflare + chiave DataForSEO a consumo | every-app/open-seo (MIT) |
 | `Desktop\PROGETTI AI\agent-skills` | (PC MSI) Sorgente del plugin agent-skills di Addy Osmani (1,4 MB), clonato per controllarlo prima di installarlo; il plugin vero sta in `.claude\plugins\cache\addy-agent-skills` | addyosmani/agent-skills (MIT) |
 | `Desktop\PROGETTI AI\ai-job-search` | AI Job Search: framework per cercare lavoro con Claude Code — comandi /setup (profilo), /scrape (annunci), /rank, /apply (CV + lettera su misura), /interview, /outcome. Si apre la cartella in Claude Code e si lancia /setup. Solo clonato (6 MB) | ai-job-search-dev/ai-job-search (MIT) |
+| `Desktop\PROGETTI AI\agent-desktop` | agent-desktop (Vercel Labs): "computer use" per agenti **senza screenshot** — legge l'albero di accessibilità delle app desktop (su Windows UI Automation) e lo restituisce come JSON con un ref per ogni elemento; l'agente clicca/scrive sui ref e rilegge per verificare. CLI (61 comandi: snapshot, click, type, launch, finestre, clipboard, notifiche…) + libreria C + server MCP (`agent-desktop mcp`) + skill. Solo clonato (111 MB, sorgente Rust). Per usarlo: `npm.cmd i -g agent-desktop` poi `agent-desktop status`; in PowerShell i ref vanno tra apici (`'@s8f3k2p9:e8'`) | vercel-labs/agent-desktop (Apache-2.0) |
+| `Desktop\PROGETTI AI\CLI-Anything` | CLI-Anything (HKUDS): rende qualsiasi programma usabile dagli agenti AI tramite una CLI (output JSON, `--help`). ~70 CLI già pronte (Blender, Audacity, GIMP, Krita, Kdenlive, Shotcut, OBS, MuseScore, ComfyUI, Rekordbox, LibreOffice, draw.io, Obsidian, Ollama, FreeCAD, Godot…), ognuna con la sua skill in `skills/`, + generatore in 7 fasi per crearne di nuove. Solo clonato (95 MB). Uso: `pip install --user cli-anything-hub` → `cli-hub install <nome>`; oppure plugin Claude Code: `/plugin marketplace add HKUDS/CLI-Anything` → `/cli-anything <programma>` | HKUDS/CLI-Anything (Apache-2.0) |
 
 ## 5. App / software installati rilevanti
 
@@ -119,6 +121,8 @@ Wii homebrew in `Desktop\WII` (chiavetta SanDisk 64GB): USB Loader GX v4.0-r1283
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
+- 2026-11-18 — **CLI-Anything** (github.com/HKUDS/CLI-Anything, Apache-2.0): CLI per agenti su ~70 programmi + generatore di nuove CLI, clonato in `PROGETTI AI\CLI-Anything` (95 MB), non installato
+- 2026-11-18 — **agent-desktop** (github.com/vercel-labs/agent-desktop, Apache-2.0): computer use tramite albero di accessibilità (CLI + MCP), clonato in `PROGETTI AI\agent-desktop` (111 MB), non installato
 - 2026-11-01 — (PC MSI) **agent-skills 0.6.15** (github.com/addyosmani/agent-skills, MIT): plugin Claude Code con 25 skill + 9 comandi + 4 agenti per tutto il ciclo di sviluppo; hook non collegati; sorgente clonato in `PROGETTI AI\agent-skills`
 - 2026-11-01 — (PC MSI) collegato all'inventario: repo clonato in `Desktop\PROGETTI AI\skills-claude`, regola in `~\.claude\CLAUDE.md` per aggiornare inventario + commit a ogni installazione
 - 2026-11-01 — (PC MSI) installate dal repo le 151 skill mancanti (ponytail, replica, remotion, gsap, mattpocock, cline…) → 252 skill in `C:\Users\Trevor Ohhvez\.claude\skills`
