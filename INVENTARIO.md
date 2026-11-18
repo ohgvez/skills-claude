@@ -118,6 +118,8 @@ After Effects 2026, Photoshop 2026, Premiere Pro 2026, FL Studio 2026, Blender 5
 
 pluginval 1.0.4 (github.com/Tracktion/pluginval, release ufficiale, zip SHA256 C08E61CE…15AB, exe non firmato): validatore standard dei plugin VST3, in `PROGETTI AI\tools\pluginval-1.0.4\bin\pluginval.exe` — usato per testare SeedForge.
 
+Mister Download Manager 0.5.2 (github.com/anefzaoui/misterdownloadmanager, GPL-3.0, winget `AhmedNefzaoui.MisterDownloadManager`): download manager gratis tipo IDM (fino a 32 connessioni, ripresa, video da 1000+ siti, torrent, scheduler, estrazione archivi). In `%LOCALAPPDATA%\Programs\Mister Download Manager`, installato il 2026-11-19 alle 00:16; eseguibili NON firmati ma identici a quelli dello zip ufficiale v0.5.2 (SHA-256 verificati). Contiene anche `misterdownloadmanager-cli.exe` e `misterdownloadmanager-mcp.exe` (server MCP per far gestire i download a Claude, non registrato). Estensione browser da aggiungere a mano: Chrome Web Store / Firefox Add-ons. Aggiornamenti: dall'app o `winget upgrade AhmedNefzaoui.MisterDownloadManager`.
+
 Wii homebrew in `Desktop\WII` (chiavetta SanDisk 64GB): USB Loader GX v4.0-r1283, d2x cIOS v11-beta3, Nintendont, wit 3.05a, fat32format 1.07.
 
 ---
@@ -126,6 +128,7 @@ Wii homebrew in `Desktop\WII` (chiavetta SanDisk 64GB): USB Loader GX v4.0-r1283
 
 Una riga per ogni cosa scaricata. Più recente in alto.
 
+- 2026-11-19 — **Mister Download Manager 0.5.2** (github.com/anefzaoui/misterdownloadmanager, GPL-3.0): già installato quando è partito winget (nessun aggiornamento disponibile); eseguibili confrontati con lo zip ufficiale: identici
 - 2026-11-19 — **SCSKiller** (github.com/BlueHeisenberg/SCSKiller, GPL-3.0): precompila gli shader dei giochi contro gli scatti, clonato in `PROGETTI AI\SCSKiller` (19 MB), non installato
 - 2026-11-18 — **ClaudeAnimationBase** (github.com/JohnHeibel/ClaudeAnimationBase, MIT): kit animazione p5.js/p5.brush per Claude, clonato in `PROGETTI AI\ClaudeAnimationBase` (16 MB), `npm install` non fatto
 - 2026-11-18 — **agent-desktop 1.3.1 installato** (npm globale, binario verificato) + skill `agent-desktop`, `agent-desktop-windows`; test sul Blocco note: lettura ok, scrittura non affidabile
