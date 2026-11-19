@@ -1,0 +1,4 @@
+#!/bin/sh
+V="/c/Users/Federico/Desktop/PROGETTI AI/Scrapling"
+export PYTHONUTF8=1 PLAYWRIGHT_BROWSERS_PATH='C:\Users\Federico\Desktop\PROGETTI AI\Scrapling\.browsers'
+exec "$V/.venv/Scripts/scrapling.exe" "$@"
